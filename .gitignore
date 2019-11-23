@@ -1,0 +1,7 @@
+build/
+server/uploads
+node_modules
+.env
+.env.production
+npm-debug.log
+*.p8

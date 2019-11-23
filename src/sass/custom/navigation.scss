@@ -1,0 +1,28 @@
+
+.navbar {
+  height: 60px;
+  vertical-align: bottom;
+  .navbar-brand {
+    font-family: $site-title-font;
+    font-size: 20px;
+    a {
+      color: #aaa;
+      text-decoration: none;
+    }
+    img {
+      height: 40px;
+    }
+  }
+  background-color: $bg-color-main;
+  margin-bottom: 30px;
+  z-index: 5;
+}
+
+.search-bar-field {
+  .search-bar {
+    border-radius: 19px;
+  }
+  .clear {
+    pointer-events: auto !important;
+  }
+}

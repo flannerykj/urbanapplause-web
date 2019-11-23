@@ -1,0 +1,41 @@
+
+
+.work-match-list {
+  li {
+    padding: 10px;
+    padding-left: 10px;
+    list-style: none;
+  }
+  li.highlighted-match {
+    background-color: #ccc;
+  }
+}
+.worklist-container {
+  margin-bottom: 30px;
+}
+.card {
+  .card-image {
+    img {
+       position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 100%;
+    }
+    height: 450px;
+    overflow: hidden;
+  }
+  .card-footer-item {
+    cursor: pointer
+  }
+  margin-bottom: 20px;
+}
+
+.add-new {
+  width: 100%
+}
+.action-icon:hover {
+  cursor: pointer;
+}
+

@@ -1,0 +1,63 @@
+//bulma styles
+@import 'bulma.min.css';
+
+//custom styles
+@import 'custom/variables';
+@import 'custom/layout';
+@import 'custom/navigation';
+@import 'custom/worksIndex';
+@import 'custom/comments';
+
+.public-page-wrapper {
+  margin-top: 48px;
+}
+
+.applause-icon {
+  filter: invert(51%) sepia(84%) saturate(4853%) hue-rotate(204deg) brightness(92%) contrast(86%);
+}
+.applause-icon:hover {
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(92%) contrast(86%);
+}
+._section {
+  margin-bottom: 24px;
+  p {
+    margin-bottom: 12px;
+  }
+}
+.user-link {
+  display: inline;
+  vertical-align: 'middle';
+}
+.form-section {
+  margin-bottom: 20px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+.disabled-text {
+ color: grey;
+ font-style: oblique;
+}
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+     box-sizing: border-box;
+}
+@media only screen and (max-device-width : 1024px) {
+  .button, input {
+    height: 4em !important;
+  }
+}
+.options-menu {
+  .comment-options-menu {
+    float: right;
+    position: relative;
+    top: 0;
+  }
+  .applause {
+    position: relative;
+    bottom: 0;
+    width: 30px;
+    display: block;
+  }
+}

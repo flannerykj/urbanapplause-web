@@ -1,0 +1,34 @@
+
+
+html, body {
+  background-color: $bg-color-main;
+  height: 100%;
+  margin: 0
+
+}
+.app-container {
+  margin: 0 auto;
+  max-width: 1400px;
+}
+.wrapper {
+  margin: 0 auto;
+  max-width: 800px;
+}
+.wrapper.page-content {
+  margin-bottom: 40px;
+  min-height: 500px;
+}
+
+@media only screen and (max-width: $mobile-breakpoint) {
+  .wrapper {
+    margin-left: 17.5px;
+    margin-right: 17.5px;
+  }
+}
+
+
+.section {
+  margin-bottom: 30px;
+}
+
+

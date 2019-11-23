@@ -1,0 +1,445 @@
+{
+  "template": {
+    "en": "",
+    "fr": ""
+  },
+  "load_more": {
+    "en": "Load more",
+    "fr": "Montre plus"
+  },
+  "confirm-delete-title": {
+    "en": "Are you sure you want to delete this $$?",
+    "fr": "Are you sure you want to delete this $$?"
+  },
+  "confirm-delete-body": {
+    "en": "This cannot be undone",
+    "fr": ""
+  },
+  "showing-results-for": {
+    "en": "Showing results for:",
+    "fr": "Résultats pour:"
+  },
+  "privacy-policy": {
+    "en": "Privacy Policy",
+    "fr": "Politique de confidentialité"
+  },
+  "terms-of-service": {
+    "en": "Terms of Service",
+    "fr": "Conditions d’utilisation"
+  },
+  "unknown_location": {
+    "en": "Unknown location",
+    "fr": ""
+  },
+  "create-new": {
+    "en": "Create new",
+    "fr": "Créer un nouveau"
+  },
+  "reset-password": {
+    "en": "Reset password",
+    "fr": "Modifier le mot de passe"
+  },
+  "reset-password-success": {
+    "en": "Success! Your password has been updated.",
+    "fr": "Votre mot de passe a été modifié."
+  },
+  "no_post_results": {
+    "en": "No posts to show",
+    "fr": ""
+  },
+  "empty_field_error": {
+    "en": "This field cannot be empty",
+    "fr": ""
+  },
+  "none_provided": {
+    "en": "None provided",
+    "fr": ""
+  },
+  "bio": {
+    "en": "Bio",
+    "fr": "Biographie"
+  },
+  "site-title": {
+    "en": "Urban Applause",
+    "fr": "Urban Applause"
+  },
+  "register": {
+    "en": "Sign up",
+    "fr": "S'inscrire"
+  },
+  "switch-to-login": {
+    "en": "Already have an account? Sign In",
+    "fr": "Connexion "
+  },
+  "login": {
+    "en": "Log In",
+    "fr": "Connexion"
+  },
+  "sign-in": {
+    "en": "Sign In",
+    "fr": "Connexion"
+  },
+  "switch-to-register": {
+    "en": "Don't have an account? Sign up now",
+    "fr": "Nouveau sur Urban Applause? S'inscrire maintenant »"
+  },
+  "add-new-post": {
+    "en": "New Post",
+    "fr": "Publier"
+  },
+ "add-new-artist": {
+    "en": "Add Artist",
+    "fr": "Ajouter un nouvel artiste"
+  },
+  "add-your-photos": {
+    "en": "Choose your photos",
+    "fr": "Ajouter des photos"
+  },
+  "new-post": {
+    "en": "New post",
+    "fr": "Ajoutez un publication"
+  },
+  "map": {
+    "en": "Map",
+    "fr": "Carte"
+  },
+  "list": {
+    "en": "List",
+    "fr": "Liste"
+  },
+  "results": {
+    "en": "Results",
+    "fr": "Résultats"
+  },
+  "comment": {
+    "en": "comment",
+    "fr": "commentaire"
+  },
+  "comments": {
+    "en": "Comments",
+    "fr": "Commentaires"
+  },
+  "no-comments": {
+    "en": "No comments",
+    "fr": "Pas de commentaires"
+  },
+  "logout": {
+    "en": "Log Out",
+    "fr": "Déconnexion "
+  },
+  "profile": {
+    "en": "Profile",
+    "fr": "Mon Profil"
+  },
+  "posts": {
+    "en": "Posts",
+    "fr": "Publications"
+  },
+  "artists": {
+    "en": "Artists",
+    "fr": "Artistes"
+  },
+  "artist": {
+    "en": "Artist",
+    "fr": "Artiste"
+  },
+  "users": {
+    "en": "Users",
+    "fr": "Utilisateurs"
+  },
+  "username": {
+    "en": "Username",
+    "fr": "Nom d'utilisateur"
+  },
+  "email": {
+    "en": "Email",
+    "fr": "Courriel"
+  },
+  "password": {
+    "en": "Password",
+    "fr": "Mot de passe"
+  },
+  "new-password": {
+    "en": "New password (minimum 8 characters)",
+    "fr": "Nouveau mot de passe (minimum de 8 caractères)"
+  },
+  "new-password-again": {
+    "en": "Your new password, again",
+    "fr": "Ressaisissez le nouveau mot de passe"
+  },
+  "submit-new-password": {
+    "en": "Save new password",
+    "fr": "Modifier le mot de passe"
+  },
+  "password-rules-sybmol": {
+    "en": "A symbol",
+    "fr": "1 symbole"
+  },
+  "password-rules-uppercase": {
+    "fr": "1 majuscule"
+  },
+  "password-rules-lowercase": {
+    "fr": "1 miniscule"
+  },
+  "confirm-password": {
+    "en": "Confirm Password",
+    "fr": "Mot de passe, encore"
+  },
+  "search-for": {
+    "en": "Search for something...",
+    "fr": "Rechercher n'importe quoi..."
+  },
+  "incorrect-login": {
+    "en": "",
+    "fr": "La combinaison de votre adresse Courriel et/ou mot de passe est incorrect."
+  },
+  "forgot-password-cta": {
+    "en": "Forgot your password? Click here to recover it.",
+    "fr": "Vous avez oublié votre mot de passe ? Cliquez ici pour le recevoir."
+  },
+  "password-val-min-char": {
+    "en": "",
+    "fr": "minimum de 8 caractères"
+  },
+  "email-invalid": {
+    "en": "Not a valid email address",
+    "fr": "Veuillez saisir une adresse de courriel valide."
+  },
+  "optional": {
+    "en": "optional",
+    "fr": "facultatif"
+  },
+  "in-city": {
+    "en": "in $$",
+    "fr": "en Ville de $$"
+  },
+  "posted-time-ago": {
+    "en": "Posted $$ hours ago",
+    "fr": "Il y a moins de $$"
+  },
+  "posted-by": {
+    "en": "Posted by",
+    "fr": "Publié par"
+  },
+  "no-results": {
+    "en": "No results. Broaden your search to find matches.",
+    "fr": "Pas de résultats."
+  },
+  "unknown-artist": {
+    "en": "Unknown artist",
+    "fr": "Artiste inconnu"
+  },
+  "comment-cta": {
+    "en": "Leave a comment",
+    "fr": "Votre commentaire..."
+  },
+  "next": {
+    "en": "Next",
+    "fr": "Suivant"
+  },
+  "delete": {
+    "en": "Delete",
+    "fr": "Supprimer"
+  },
+  "edit": {
+    "en": "Edit",
+    "fr": "Modifier"
+  },
+  "submit-new": {
+    "en": "Submit",
+    "fr": "Publie"
+  },
+  "choose-other-images-cta": {
+    "en": "Choose other images",
+    "fr": "Choisissez différentes images"
+  },
+  "save-changes": {
+    "en": "Save",
+    "fr": "Enregistrer les modifications"
+  },
+  "cancel": {
+    "en": "Cancel",
+    "fr": "Annuler"
+  },
+  "published-by": {
+    "en": "Published by",
+    "fr": "Publié par"
+  },
+  "unknown": {
+    "en": "Unknown",
+    "fr": "Inconnu"
+  },
+  "art-by": {
+    "en": "Art by",
+    "fr": "Art par"
+  },
+  "image-upload-cta": {
+    "en": "Select photos",
+    "fr": "Choisissez des photos"
+  },
+  "loading": {
+    "en": "Loading",
+    "fr": "Chargement"
+  },
+  "artist-input-type-new": {
+    "en": "Creating new",
+    "fr": "Ajouter un nouvel artiste"
+  },
+  "artist-input-type-unknown": {
+    "en": "Unknown Artist",
+    "fr": "Artiste Inconnu"
+  },
+  "artist-input-type-unknown-cta": {
+    "en": "I don't know the artist",
+    "fr": "Je ne connais pas l'artiste"
+  },
+  "first_name-field-label":{
+    "en": "First name",
+    "fr": "Prénom"
+  },
+  "first_name-field-label":{
+    "en": "First name",
+    "fr": "Prénom"
+  },
+  "name-field-label":{
+    "en": "Name",
+    "fr": "Nom"
+  },
+  "last_name-field-label":{
+    "en": "Last name",
+    "fr": "Nom de famille"
+  },
+  "message-field-label": {
+    "en": "Message",
+    "fr": "Message"
+  },
+  "send": {
+    "en": "Send",
+    "fr": "Envoyer"
+  },
+  "contact-success-message": {
+    "en": "Thank you for your message!",
+    "fr": "Merci pour votre message!"
+  },
+  "contact-again": {
+    "en": "Send another message",
+    "fr": "Envoyer un autre message"
+  },
+  "location-field-label": {
+    "en": "Location",
+    "fr": "Lieu"
+  },
+  "description-field-label": {
+    "en": "Description",
+    "fr": "Description"
+  },
+  "photo-date-field-label": {
+    "en": "Photo taken on",
+    "fr": "Photo prise"
+  },
+  "description-input-placeholder": {
+    "en": "Details about this photo",
+    "fr": "Détails sur cette photo"
+  },
+  "search-for-artist": {
+    "en": "Search for an artist ",
+    "fr": "Rechercher un artiste"
+  },
+ "search-for-user": {
+    "en": "Search for a user",
+    "fr": "Rechercher un utilisateur"
+  },
+  "search-for-location": {
+    "en": "Search for a place",
+    "fr": "Rechercher un lieu"
+  },
+  "none-selected": {
+    "en": "None selected",
+    "fr": "Aucune sélection"
+  },
+  "about": {
+    "en": "About",
+    "fr": "À propos"
+  },
+  "to-comment": {
+    "en": "to comment",
+    "fr": "pour commentaire"
+  },
+  "or": {
+    "en": "or",
+    "fr": "ou"
+  },
+  "dev-blog": {
+    "en": "Development Blog",
+    "fr": "Blog de développement"
+  },
+  "home": {
+    "en": "Home",
+    "fr": "Accueil"
+  },
+  "support": {
+    "en": "Help",
+    "fr": "Centre d'aide"
+  },
+  "posts-by-artist": {
+    "en": "Posts by $$",
+    "fr": "L'art de $$"
+  },
+  "member-since": {
+    "en": "Member since",
+    "fr": "Membre depuis"
+  },
+  "welcome-user": {
+    "en": "Welcome, $$",
+    "fr": "Bienvenue, $$"
+  },
+  "auth-errors": {
+    "login-failed": {
+      "en": "Invalid Credentials",
+      "fr": "La combinaison de votre adresse Courriel et/ou mot de passe est incorrect."
+    },
+    "registration-failed": {
+      "en": "Failed to register. You are missing some of the required fields.",
+      "fr": "Saisissez l'information dans la section en surbrillance."
+    },
+    "email-required": {
+      "en": "Valid email is required",
+      "fr": "Saisissez l'information dans la section en surbrillance."
+    },
+    "invalid-email": {
+      "en": "Email is not valid",
+      "fr": "Veuillez saisir une adresse de courriel valide."
+
+    },
+    "duplicate-email": {
+      "en": "A user with that email already exists",
+      "fr": "Veuillez saisir votre adresse de courriel de nouveau"
+    },
+    "username-required": {
+      "en": "Username is required",
+      "fr": " Saisissez l'information dans la section en surbrillance."
+    },
+    "duplicate-username": {
+      "en": "A user with that name already exists. Please choose something unique.",
+      "fr": "Veuillez saisir votre nom d'utilisateur de nouveau"
+    },
+    "password-required": {
+      "en": "Password is required",
+      "fr": "Entrez une combinaison d'au moins six chiffres, lettres et signes de ponctuation (tels que ! et &)"
+    },
+    "password-invalid": {
+      "en": "Password is required",
+      "fr": "Entrez une combinaison d'au moins six chiffres, lettres et signes de ponctuation (tels que ! et &)"
+    },
+    "passwords-dont-match": {
+       "en": "Passwords don't match",
+      "fr": "Entrée ne correspond pas au-dessus"
+    },
+    "reset-password-token-error": {
+       "en": "Your token to reset password has expired",
+      "fr": ""
+    }
+  }
+}
+
+
