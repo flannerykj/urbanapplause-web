@@ -1,24 +1,34 @@
 // @flow
 
 import React, { Component } from 'react';
+import ExifOrientationImage from './ExifOrientationImage';
 import copy from '../copy';
 
-class ImageModal extends Component {
+type Props = {
+  images: Uint8Array[],
+  isActive: boolean,
+  onClose: () => void
+}
 
-  constructor(props) {
+type State = {
+  index: number
+}
+class ImageModal extends Component<Props, State> {
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       index: 0
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown, false);
   }
   componentWillUnmount(){
     document.removeEventListener("keydown", this.handleKeyDown, false);
   }
 
-  handleKeyDown = (event) => {
+  handleKeyDown = (event: KeyboardEvent) => {
     if (event.keyCode === 37) {
       // left (previous) arrow
       this.showPrevious();
@@ -63,7 +73,8 @@ class ImageModal extends Component {
             </a>
 
             <div className="image is-centered" style={{ textAlign: 'center'}}>
-              <img src={images[this.state.index]} alt="" style={{ }} />
+
+              <ExifOrientationImage src={images[this.state.index]}/>
             </div>
 
             <a onClick={this.showNext}>

@@ -10,8 +10,11 @@ type Props = {
   posts: Post[],
   loading: boolean
 }
-class PostGallery extends React.Component<Props> {
-  constructor(props) {
+type State = {
+  images: {[string]: Uint8Array}
+}
+class PostGallery extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       images: {}
@@ -42,20 +45,20 @@ class PostGallery extends React.Component<Props> {
     return (
       <div className="tile is-ancestor">
           {this.props.posts.length ? this.props.posts.map((post, i) => {
-      const firstImage = post.PostImages && post.PostImages[0];
-      if (firstImage) {
-        return (
-          <div className='tile is-4' key={i}>
-            <Link to={`/posts/${post.id}`}>
-              <figure>
-                <ExifOrientationImage src={this.state.images[firstImage.storage_location]}/>
-              </figure>
-            </Link>
-          </div>
-        )
-      } else {
-        return <div />
-      }}) : <span><strong>No results for this artist. </strong></span>}
+            const firstImage = post.PostImages && post.PostImages[0];
+            if (firstImage) {
+              return (
+                <div className='tile is-4' key={i}>
+                  <Link to={`/posts/${post.id}`}>
+                    <figure>
+                      <ExifOrientationImage src={this.state.images[firstImage.storage_location]}/>
+                    </figure>
+                  </Link>
+                </div>
+              )
+            } else {
+              return <div />
+          }}) : <span><strong>No results for this artist. </strong></span>}
         </div>
       );
   }

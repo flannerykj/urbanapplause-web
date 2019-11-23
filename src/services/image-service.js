@@ -16,6 +16,7 @@ class ImageService {
   get uploadsDir() {
     return 'uploads'
   }
+
   upload(files: [File], postId: number): Promise<string> {
     return apiService.upload(`/posts/${postId}/images`, files, 'images[]')
   }

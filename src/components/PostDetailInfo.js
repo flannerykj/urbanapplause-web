@@ -18,7 +18,7 @@ type Props = NavigationProps & {
 
 type State = {
   galleryModalActive: boolean,
-  previewImage: ?string
+  previewImage: ?Uint8Array
 }
 class PostDetail extends Component<Props, State> {
     constructor(props) {
@@ -84,14 +84,17 @@ class PostDetail extends Component<Props, State> {
     const post = this.props.post;
     return (
       <div className="container">
+        {/* update when multiple image uploads allowed: */}
+        {this.state.previewImage && <ImageModal
+          isActive={this.state.galleryModalActive}
+          images={[this.state.previewImage]}
+          onClose={this.hideModal} />}
 
-        <ImageModal isActive={this.state.galleryModalActive} images={post.PostImages.map((image) => C.IMAGES_URL + '/' + image.storage_location)} onClose={this.hideModal} />
-
-          <a onClick={this.showModal}>
+          {this.state.previewImage && <a onClick={this.showModal}>
             <ExifOrientationImage
               src={this.state.previewImage}
           />
-          </a>
+          </a>}
         <InfoField
           label={copy['art-by'][lang]}
           emptyText={copy['unknown-artist'][lang]}
