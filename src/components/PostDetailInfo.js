@@ -89,12 +89,15 @@ class PostDetail extends Component<Props, State> {
           isActive={this.state.galleryModalActive}
           images={[this.state.previewImage]}
           onClose={this.hideModal} />}
-
-          {this.state.previewImage && <a onClick={this.showModal}>
-            <ExifOrientationImage
-              src={this.state.previewImage}
-          />
+        <div style={{ height: '300px' }}>
+          {this.state.previewImage &&
+            <a onClick={this.showModal}>
+              <ExifOrientationImage
+                height={300}
+                src={this.state.previewImage}
+            />
           </a>}
+        </div>
         <InfoField
           label={copy['art-by'][lang]}
           emptyText={copy['unknown-artist'][lang]}

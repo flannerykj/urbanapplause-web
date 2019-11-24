@@ -4,7 +4,8 @@ import type { Ref, ElementType, ElementRef } from 'react';
 import EXIF from 'exif-js';
 
 type Props = {
-  src: Uint8Array
+  src: Uint8Array,
+  height: ?number
 }
 
 type State = {
@@ -26,8 +27,10 @@ class ExifOrientationImage extends Component<Props, State> {
     this.updateImage(this.props);
   }
   updateImage = (props: Props) => {
-    const uint = props.src;
     const canvas = this.canvasRef.current;
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const uint = props.src;
     if (!canvas || !uint) return;
     var arrayBufferView = new Uint8Array(this.props.src);
     var blob = new Blob( [ arrayBufferView ], { type: "image/jpeg" } );
@@ -39,10 +42,9 @@ class ExifOrientationImage extends Component<Props, State> {
     image.onload = () => {
       const exifOrientation = this.getOrientation(uint);
       // Set variables
-      var ctx = canvas.getContext("2d");
-
-      var width = image.width,
-        height = image.height;
+      var height = image.height; // this.props.height ? this.props.height : image.height;
+      var width = image.width;// height * image.width / image.height;
+      console.log('height: ', height);
       // set proper canvas dimensions before transform & export
       if ([5, 6, 7, 8].indexOf(exifOrientation) > -1) {
           canvas.width = height;
@@ -115,10 +117,19 @@ class ExifOrientationImage extends Component<Props, State> {
       return -1
   }
   render() {
+    const canvasStyle = {
+      textAlign: 'center',
+      verticalAlign: 'middle'
+    }
+    if (this.props.height) {
+      canvasStyle.height = `${this.props.height}px`
+    } else {
+      canvasStyle.width = '100%';
+    }
     return (
-      <div>
+      <div style={{ width: '100%', verticalAlign: 'middle' }}>
         <canvas
-          style={{ width: '100%', verticalAlgin: 'middle' }}
+          style={canvasStyle}
           ref={this.canvasRef}
           id="imageCanvas" />
       </div>
