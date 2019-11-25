@@ -44,8 +44,6 @@ class OptionsMenu extends Component<Props, State> {
 
   render() {
     const { onEdit, onDelete, authUser, post } = this.props;
-    console.log('authUser: ', authUser.id);
-    console.log('post owner: ', post.UserId);
     return(
       <div className='comment-options-menu' style={{width: '30px', float: 'right'}}>
 
@@ -59,10 +57,10 @@ class OptionsMenu extends Component<Props, State> {
             <div className="dropdown-menu" id="dropdown-menu" role="menu">
               <div className="dropdown-content" onClick={this.closeDropdown}>
                 <Can
-                  role={authUser.role}
+                  role={authUser && authUser.role}
                   perform='post:delete'
                   data={{
-                    authUserId: authUser.id,
+                    authUserId: authUser && authUser.id,
                     postOwnerId: post.UserId
                   }}
                   yes={() => (

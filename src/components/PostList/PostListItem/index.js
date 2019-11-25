@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CacheableImage from '../../PostImage';
 import {timeSince, formattedStringFromDate, getValidDate} from '../../../services/dateAndTime';
+import IconAndText from '../../IconAndText';
 import C from '../../../constants';
 import copy from '../../../copy';
 import moment from 'moment';
@@ -66,64 +67,55 @@ class PostListItem extends Component<Props, State> {
           <div className='card-image is-5by3 is-vertical-center'>
             {previewImage && <CacheableImage
               storageLocation={previewImage.storage_location}
-              />}
-            </div>
-          </a>
+            />
+            }
+          </div>
+        </a>
+
         <div className="card-content">
           <div className="media">
-              <div className="media-content">
+            <div className="media-content">
+              <h3 className="title is-4">
+                {post.Artists && post.Artists.length ? post.Artists.map((artist, i) => <Link to={`/artists/${artist.id}`}>{artist.signing_name} {i < post.Artists.count - 1 ? ', ' : ''}</Link>) : <span>{copy['unknown-artist'][lang]} </span>}
+                {cityCopy}
+              </h3>
 
-                <h3 className="title is-4">
-                  {post.Artists && post.Artists.length ? post.Artists.map((artist, i) => <Link to={`/artists/${artist.id}`}>{artist.signing_name} {i < post.Artists.count - 1 ? ', ' : ''}</Link>) : <span>{copy['unknown-artist'][lang]} </span>}
-                  {cityCopy}
-                </h3>
+              <h5 className='subtitle is-5' style={{ verticalAlign: 'middle' }}>
+                {post.Location ? [post.Location.street_address, post.Location.city, post.Location.country, post.Location.postal_code].join(', ') : 'Unknown location'}
+              </h5>
 
-                <div>
-                  <h5 className='subtitle is-5' style={{ verticalAlign: 'middle' }}>
-                    {post.Location ? [post.Location.street_address, post.Location.city, post.Location.country, post.Location.postal_code].join(', ') : 'Unknown location'}
-                  </h5>
-                </div>
+              <p>
+                {copy['posted-by'][lang]} <Link to={`/users/${post.User ? post.User.id : 0}`}>{post.User ? post.User.username : 'Unknown'} </Link>
+                {moment(new Date(post.createdAt)).calendar()}
+              </p>
+            </div> {/* end of media content */}
 
-                <p>
-                  {copy['posted-by'][lang]} <Link to={`/users/${post.User ? post.User.id : 0}`}>{post.User ? post.User.username : 'Unknown'} </Link>
-                  {moment(new Date(post.createdAt)).calendar()}
-                </p>
-              </div>
+            <div className='media-right'>
+              <OptionsMenu
+                authUser={authUser}
+                post={post}
+                onDelete={this.handleDelete}
+              />
+            </div> {/* end of media right */}
+          </div> {/* end of media */}
+          <div className='content'>
+            <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
 
-              <div className='media-right'>
-                <OptionsMenu
-                  authUser={authUser}
-                  post={post}
-                  onDelete={this.handleDelete}
-                />
-              </div>
-            </div>
-            <div className='content'>
-              {post.description}
-
-              <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <a
-                  onClick={this.handleApplaud}
-                  style={{ marginRight: '24px' }}
-                >
-
-                  <span className='icon'>
-                    <img className='applause-icon' src={applauseIcon} style={{ marginRight: '3px' }} />
-                    <span>{post.Applause ? post.Applause.length : ''}</span>
-                  </span>
-
-              </a>
-              <a onClick={() => this.props.viewComments(post)}>
-                <span className='icon'>
-                  <i className='far fa-comment fa-lg' style={{ marginRight: '5px' }} />
-                  <span>{post.Comments ? post.Comments.length : ''}</span>
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
+              <IconAndText
+                onClick={this.handleApplaud}
+                iconSrc={applauseIcon}
+                iconClassName='applause-icon'
+                number={post.Applause ? post.Applause.length : 0}
+              />
+              <IconAndText
+                onClick={() => { this.props.viewComments(post)}}
+                iconName='far fa-comment fa-lg'
+                number={post.Comments ? post.Comments.length : 0}
+              />
+            </div> { /* end of content */ }
+          </div>{ /* end of content */ }
+        </div> { /* end of card-content */ }
+      </div>  // end of card
     )
   }
 }

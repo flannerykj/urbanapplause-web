@@ -8,8 +8,10 @@
 @import 'custom/worksIndex';
 @import 'custom/comments';
 
+.icon-and-text {
+  vertical-align: middle;
+}
 .gallery {
-
   .grid-container {
     width: 100%;
     display: grid;

@@ -11,24 +11,17 @@ import Can from '../components/Can';
 import type { User } from '../types/user';
 import type { Post } from '../types/post';
 import type { Applause } from '../types/applause';
+import type { SettingsState, AuthUserState } from '../types/store';
 
 type Props = NavigationProps & {
   match: {
     params: {
-      id: number
+      id: number // id of selected user
     }
   },
-  history: {
-    push: (string) => void
-  },
-
   // redux props
-  authUser: {
-    loading: boolean,
-    error: ?string,
-    data: ?User
-  },
-  settings: {}
+  authUser: AuthUserState,
+  settings: SettingsState
 }
 
 type State = {
@@ -39,16 +32,6 @@ type State = {
     loading: boolean,
     error: ?string,
     data: ?User
-  },
-  posts: {
-    loading: boolean,
-    error: ?string,
-    data: Post[]
-  },
-  applause: {
-    loading: boolean,
-    error: ?string,
-    data: Applause[]
   }
 }
 class UserProfilePage extends Component<Props, State> {
@@ -59,16 +42,6 @@ class UserProfilePage extends Component<Props, State> {
         loading: false,
         error: null,
         data: null
-      },
-      applause: {
-        loading: false,
-        error: null,
-        data: []
-      },
-      posts: {
-        loading: false,
-        error: null,
-        data: []
       },
       isEditing: false,
       tabs: [],
@@ -84,13 +57,8 @@ class UserProfilePage extends Component<Props, State> {
       tabs: tabs,
       activeTab: tabs[0]
     });
-  }
-  componentDidMount() {
     this.getUser(this.props.match.params.id);
-    this.getUserApplause(this.props.match.params.id);
-    this.getUserPosts(this.props.match.params.id);
   }
-
   componentWillReceiveProps(nextProps: Props) {
     if(nextProps.match.params.id !== this.props.match.params.id) {
       this.getUser(nextProps.match.params.id);
@@ -104,68 +72,6 @@ class UserProfilePage extends Component<Props, State> {
   isAuthUser = (): boolean => {
     const id = this.props.match.params.id;
     return (this.props.authUser.data && this.props.authUser.data.id==id)
-  }
-  getUserApplause = (userId: number) => {
-    this.setState({
-      applause: {
-        loading: true,
-        error: null,
-        data: []
-      }
-    });
-    const qs = `?UserId=${userId}&include=post`;
-    return apiService.get("/applause" + qs)
-      .then((json) => {
-        if (json.applause) {
-          this.setState({
-            applause: {
-              loading: false,
-              data: json.applause,
-              error: null
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          applause: {
-            data: [],
-            loading: false,
-            error
-          }
-        })
-      });
-  }
-  getUserPosts = (userId: number) => {
-    this.setState({
-      posts: {
-        loading: true,
-        error: null,
-        data: []
-      }
-    });
-      const qs = `?UserId=${userId}`;
-      return apiService.get("/posts" + qs)
-        .then((json) => {
-          if (json.posts) {
-            this.setState({
-              posts: {
-                loading: false,
-                data: json.posts,
-                error: null
-              }
-            });
-          }
-        })
-      .catch((error) => {
-        this.setState({
-          posts: {
-            error,
-            loading: false,
-            data: []
-          }
-        });
-      });
   }
   submitUserEdit = (id: number, values: {}) => {
     this.setState({
@@ -241,11 +147,15 @@ class UserProfilePage extends Component<Props, State> {
     const lang = this.props.settings.languagePref;
     const user = this.state.user.data;
     var tabContent = '';
-    if (!user || this.state.user.loading) {
-      return <div>Loading...</div>
-    }
+
+    const userId = this.props.match.params.id;
+
     switch(this.state.activeTab) {
       case "Profile":
+        if (!user || this.state.user.loading) {
+          tabContent = <div>Loading...</div>;
+          break;
+        }
         tabContent = (
           <div>
             <Can
@@ -282,48 +192,29 @@ class UserProfilePage extends Component<Props, State> {
         );
         break;
       case "Applause":
-        if (user) {
-          tabContent = (
-            <div>
-              {this.state.applause.loading ? <div>Loading...</div> : (
-              <div>
-                {this.state.applause.data.length ? (
-                <PostList
-                    history={this.props.history}
-                    lang={this.props.settings.languagePref}
-                    authUser={this.props.authUser && this.props.authUser.data}
-                    query={{ applaudedBy: this.state.user.data && this.state.user.data.id }}
-                  />) : (
-                  <p>{this.isAuthUser() ? 'You haven\'t' : `${this.state.user.data ? this.state.user.data.username : ''} hasn\'t`} applauded any posts yet. </p>
-                )}
-              </div>
-              )}
-            </div>
-          )
-        }
+        tabContent = (
+          <PostList
+            settings={this.props.settings}
+            history={this.props.history}
+            authUser={this.props.authUser && this.props.authUser.data}
+            query={{
+              applaudedBy: userId
+            }}
+          />
+        )
         break;
 
       case "Posts":
-        if (user) {
           tabContent = (
-            <div>
-              {this.state.posts.loading ? <div>Loading...</div> : (
-
-              <div>
-                {this.state.posts.data.length ? (
-                <PostList
-                    history={this.props.history}
-                    lang={this.props.settings.languagePref}
-                    authUser={this.props.authUser && this.props.authUser.data}
-                    query={{ userId: this.state.user.data && this.state.user.data.id }}
-                  />) : (
-                    <p>{this.isAuthUser() ? 'You haven\'t' : `${this.state.user.data ? this.state.user.data.username : 'This user'} hasn\'t`} added any posts yet. </p>
-                  )}
-                </div>
-              )}
-            </div>
+            <PostList
+              settings={this.props.settings}
+              history={this.props.history}
+              authUser={this.props.authUser && this.props.authUser.data}
+              query={{
+                userId
+              }}
+            />
           )
-        }
         break;
       case "Account":
         tabContent = <div> <label className='label'>Email</label>{this.state.user.data && this.state.user.data.email}</div>
@@ -356,7 +247,6 @@ class UserProfilePage extends Component<Props, State> {
         <div className='tab-content'>
           {tabContent}
         </div>
-
       </div>
     )
   }

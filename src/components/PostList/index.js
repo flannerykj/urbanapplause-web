@@ -12,8 +12,7 @@ export type PostQueryParams = {
   artistId: ?number,
   userId: ?number,
   search: ?string,
-  applaudedBy: ?number,
-  page: number
+  applaudedBy: ?number
 }
 
 type Props = NavigationProps & {
@@ -62,32 +61,33 @@ class PostList extends Component<Props, State> {
     const query = {
       ...props.query,
       page: this.state.page,
-      limit: 10
+      limit: 10,
+      include: 'applause,comments'
     };
-      console.log('query: ', query);
-      this.setState({
-        loading: true,
-        posts: this.state.posts && query.page > 0 ? this.state.posts : []
-      });
-      return apiService.get("/posts", {}, query)
-        .then((json) => {
-          if (json.posts) {
-            this.setState({
-              loading: false,
-              posts: json.posts.concat(this.state.posts)
-            });
-          } else {
-            console.log(json);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
+    this.setState({
+      error: null,
+      loading: true,
+      posts: this.state.posts && query.page > 0 ? this.state.posts : []
+    });
+    return apiService.get("/posts", {}, query)
+      .then((json) => {
+        if (json.posts) {
           this.setState({
-            posts: [],
             loading: false,
-            error
+            posts: json.posts.concat(this.state.posts)
           });
+        } else {
+          console.log(json);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          posts: [],
+          loading: false,
+          error
         });
+      });
     }
   loadMorePosts = () => {
     this.setState({
@@ -222,7 +222,7 @@ class PostList extends Component<Props, State> {
       />
     );
     return (
-      <div className="postlist-container">
+      <div>
         {this.props.query.search && this.props.query.search.length ?
           <p style={{ marginBottom: '24px' }}>
             {copy["showing-results-for"][lang]} <b><i>{this.props.query.search}</i></b>
