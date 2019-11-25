@@ -5,7 +5,7 @@ import { connect } from  'react-redux';
 import PostList from '../components/PostList';
 import SearchBar from '../components/SearchBar';
 import RangeSlider from '../components/RangeSlider';
-import PostsMapView from '../components/MapKitMap';
+// import PostsMapView from '../components/MapKitMap';
 import copy from '../copy';
 import type { AuthState, AuthUserState, SettingsState } from '../types/store';
 
@@ -55,7 +55,7 @@ class PostListPage extends Component<Props, State> {
                 placeholder={copy['search-for'][lang]}/>
             </div>
 
-            <div className='column'>
+            {/* <div className='column'>
               <div className='field has-addons is-expanded' style={{width: '100%'}}>
                 <span className='control' onClick={this.closeMap} style={{width: '50%'}}>
                   <a
@@ -76,7 +76,7 @@ class PostListPage extends Component<Props, State> {
                   </a>
                 </span>
               </div>
-            </div>
+            </div> */}
 
             <div className='column'>
               <Link className='button is-primary is-expanded' style={{width: '100%'}} to="/posts/new">+ {copy['add-new-post'][lang]}</Link>
@@ -84,7 +84,17 @@ class PostListPage extends Component<Props, State> {
           </div>
         </section>
         <div className='is-centered' style={{  }}>
-          {this.state.mapView ?
+          <PostList
+            lang={lang}
+            authUser={this.props.authUser}
+            query={{
+              search: this.state.searchKey
+            }}
+            history={this.props.history}
+            settings={this.props.settings}
+          />
+
+          {/* this.state.mapView ?
           <PostsMapView
             lang={lang}
             authUser={this.props.authUser}
@@ -102,7 +112,7 @@ class PostListPage extends Component<Props, State> {
             }}
             history={this.props.history}
             settings={this.props.settings}
-          />}
+          />*/}
         </div>
       </div>
     )
