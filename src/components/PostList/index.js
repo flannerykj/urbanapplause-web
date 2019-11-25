@@ -3,100 +3,261 @@ import React, { Component } from 'react';
 import type { NavigationProps } from '../../types/navigation';
 import PostListItem from './PostListItem';
 import copy from '../../copy';
-import withPostProps from '../../hoc/withPostProps';
-import type { PostQueryParams } from '../../hoc/withPostProps';
+import type { Post } from '../../types/post';
 import type { SettingsState, AuthUserState } from '../../types/store';
+import apiService from '../../services/api-service';
+
+export type PostQueryParams = {
+  postId: ?number,
+  artistId: ?number,
+  userId: ?number,
+  search: ?string,
+  applaudedBy: ?number,
+  page: number
+}
 
 type Props = NavigationProps & {
   authUser: AuthUserState,
   settings: SettingsState,
-  query: PostQueryParams
-}
-
-type State = {
+  query: PostQueryParams,
   page: number
 }
 
+type State = {
+  page: number,
+  loading: boolean,
+  posts: [],
+  error: ?string,
+  confirmDeletePost: ?number
+}
+
 class PostList extends Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
-      page: 0
+      page: 0,
+      loading: false,
+      error: null,
+      posts: [],
+      confirmDeletePost: null
     }
   }
   get itemLimitPerPage(): number {
     return 10
   }
   get canLoadMore(): boolean {
-    const wasLastPageFull = (this.props.posts.length % this.itemLimitPerPage == 0) && this.props.posts.length > 0;
+    const wasLastPageFull = (this.state.posts.length % this.itemLimitPerPage == 0) && this.state.posts.length > 0;
     return wasLastPageFull
   }
   componentDidMount() {
-    this.getPosts();
+    this.getPosts(this.props);
   }
   componentWillReceiveProps(nextProps: Props){
     if (this.props.query !== nextProps.query) {
-      this.props.getPosts(nextProps);
+      console.log('next query: ', nextProps.query);
+      this.getPosts(nextProps);
     }
   }
-  getPosts() {
-    this.props.getPosts({ ...this.props.query, page: this.state.page, limit: this.itemLimitPerPage });
-  }
+  getPosts(props: Props) {
+    const query = {
+      ...props.query,
+      page: this.state.page,
+      limit: 10
+    };
+      console.log('query: ', query);
+      this.setState({
+        loading: true,
+        posts: this.state.posts && query.page > 0 ? this.state.posts : []
+      });
+      return apiService.get("/posts", {}, query)
+        .then((json) => {
+          if (json.posts) {
+            this.setState({
+              loading: false,
+              posts: json.posts.concat(this.state.posts)
+            });
+          } else {
+            console.log(json);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.setState({
+            posts: [],
+            loading: false,
+            error
+          });
+        });
+    }
   loadMorePosts = () => {
     this.setState({
       page: this.state.page + 1
     });
-    this.getPosts();
+    this.getPosts(this.props);
   }
-  render() {
-    if (this.props.loading && this.state.page == 0) {
-      return (<div className='postlist-container'>{copy['loading'][this.props.lang]}...</div>)
+  applaudPost = (PostId: number) => {
+      const UserId = this.props.authUser && this.props.authUser.data && this.props.authUser.data.id;
+      return apiService.post(`/applause`, {
+        applause: { UserId, PostId }
+      })
+        .then((json) => {
+          if(json.applause) {
+            const applause = json.applause;
+            var newItems = this.state.posts.map((item, i) => {
+              if (item.id === applause.PostId) {
+                const updatedApplause = item.Applause ? item.Applause : [];
+                updatedApplause.push(applause);
+                return Object.assign({}, item, {
+                  Applause: updatedApplause
+                })
+              }
+              return item;
+            });
+            this.setState({
+              posts: newItems,
+              loading: false
+            })
+          } else if (json.deleted) {
+            // remove applause
+            const applause = json.deleted;
+            var newItems = this.state.posts.map((item, i) => {
+              if (item.id === applause.PostId) {
+                const updatedApplause = item.Applause ? item.Applause : [];
+                const index = updatedApplause.indexOf(applause);
+                updatedApplause.splice(index, 1)
+                if (index > -1 ) {
+                  return Object.assign({}, item, {
+                    Applause: updatedApplause
+                  })
+                }
+              }
+              return item;
+            });
+            this.setState({
+              posts: newItems,
+              loading: false
+            });
+          } else {
+            console.log(json);
+          }
+        })
+        .catch((error) => {
+          this.setState({
+            loading: false,
+            error
+          });
+        })
     }
-    if (this.props.error) {
+    selectPost = (postId: number) => {
+      this.props.history.push(`/posts/${postId}`)
+    }
+    deletePost = (postId: number) => {
+      this.setState({
+        confirmDeletePost: postId
+      });
+    }
+    onConfirmDeletePost = () => {
+      if (this.state.confirmDeletePost) {
+        return apiService.delete("/posts/" + this.state.confirmDeletePost, {})
+          .then(data => {
+            const post = data.post;
+            if (post) {
+              var newItems = this.state.posts.filter((item, i) => {
+                return item.id !== post.id
+              })
+              this.setState({
+                posts: newItems,
+                loading: false,
+                confirmDeletePost: null
+              })
+            } else {
+              throw new Error()
+            }
+          })
+          .catch((error) => {
+            this.setState({
+              loading: false,
+              error
+            });
+          })
+      }
+    }
+    viewComments = (post: Post) => {
+      this.props.history.push(`/posts/${post.id}#comments`)
+    }
+    cancelDeletePost = () => {
+      this.setState({
+        confirmDeletePost: null
+      });
+    }
+  render() {
+    const lang = this.props.settings.languagePref;
+    if (this.state.loading && this.state.page == 0) {
+      return (<div className='postlist-container'>{copy['loading'][lang]}...</div>)
+    }
+    if (this.state.error) {
       return (
         <article className="message is-danger">
           <div className="message-body">
-            {this.props.error}
+            {this.state.error}
           </div>
         </article>
       );
     }
 
-    let listItems = this.props.posts.map(post =>
+    let listItems = this.state.posts.map(post =>
       <PostListItem
-        selectPost={this.props.selectPost}
-        viewComments={this.props.viewComments}
-        applaudPost={this.props.applaudPost}
+        selectPost={this.selectPost}
+        viewComments={this.viewComments}
+        applaudPost={this.applaudPost}
         key={post.id}
         post={post}
         onSearchKeyChange={this.props.onSearchKeyChange}
-        onDelete={this.props.deletePost}
+        onDelete={this.deletePost}
         authUser={this.props.authUser && this.props.authUser.data}
         settings={this.props.settings}
         showSearchBar
         showAddButton
-        lang={this.props.lang}
+        lang={lang}
       />
     );
     return (
       <div className="postlist-container">
         {this.props.query.search && this.props.query.search.length ?
           <p style={{ marginBottom: '24px' }}>
-            {copy["showing-results-for"][this.props.lang]} <b><i>{this.props.query.search}</i></b>
+            {copy["showing-results-for"][lang]} <b><i>{this.props.query.search}</i></b>
           </p>
           : ''}
-        {!this.props.posts.length && (
-          <div className='container' style={{ textAlign: 'center' }}>{copy.no_post_results[this.props.lang]}</div>
+        {!this.state.posts.length && (
+          <div className='container' style={{ textAlign: 'center' }}>{copy.no_post_results[lang]}</div>
         )}
         {listItems}
         {this.canLoadMore &&
           <div style={{ textAlign: 'center' }}>
-            <button className={`button ${this.props.loading ? 'is-loading' : ''}`} onClick={this.loadMorePosts}>{copy.load_more[this.props.lang]}</button>
+            <button className={`button ${this.props.loading ? 'is-loading' : ''}`} onClick={this.loadMorePosts}>{copy.load_more[lang]}</button>
           </div>
-        }
+  }
+
+        <div className={`modal ${this.state.confirmDeletePost ? 'is-active' : ''}`}>
+          <div className="modal-background"></div>
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <p className="modal-card-title">{copy['confirm-delete-title'][lang].replace('$$', 'post')}</p>
+              <button className="delete" aria-label="close" onClick={this.cancelDeletePost}></button>
+            </header>
+            <section className="modal-card-body">
+              {copy['confirm-delete-body'][lang]}
+            </section>
+            <footer className="modal-card-foot">
+              <button className="button" onClick={this.cancelDeletePost}>{copy['cancel'][lang]}</button>
+              <button className="button is-danger" onClick={this.onConfirmDeletePost}>Delete</button>
+            </footer>
+          </div>
+          <button className="modal-close is-large" aria-label="close" onClick={this.cancelDeletePost}></button>
+        </div>
       </div>
     );
   }
 };
 
-export default withPostProps(PostList);
+export default PostList;
