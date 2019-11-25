@@ -3,53 +3,39 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import type { NavigationProps } from '../types/navigation';
+import type { Post } from '../types/post';
 import copy from '../copy';
 import withPostProps from '../hoc/withPostProps';
 import InfoField from './InfoField'
 import CommentList from './CommentList';
 import ImageModal from './ImageModal';
 import imageService from '../services/image-service';
-import ExifOrientationImage from './ExifOrientationImage';
+import CacheableImage from './PostImage';
 
 import C from '../constants';
 
 type Props = NavigationProps & {
+  post: Post
 }
 
 type State = {
-  galleryModalActive: boolean,
-  previewImage: ?Uint8Array
+  galleryModalActive: boolean
 }
 class PostDetail extends Component<Props, State> {
     constructor(props) {
     super(props);
     this.state = {
-      galleryModalActive: false,
-      previewImage: null
+      galleryModalActive: false
     }
   }
-    componentDidMount() {
-      this.updateData(this.props);
+  componentDidMount() {
+    this.updateData(this.props);
+  }
+  componentWillReceiveProps(nextProps: Props){
+    if (this.props.postId !== nextProps.postId) {
+      this.updateData(nextProps);
     }
-    componentWillReceiveProps(nextProps: Props){
-      if (this.props.postId !== nextProps.postId) {
-        this.updateData(nextProps);
-      }
-      if (!this.props.post && nextProps.post) {
-        const { post } = nextProps;
-        const previewImage = post.PostImages && post.PostImages[0];
-        if (previewImage) {
-          imageService.download(previewImage.storage_location).then((url) => {
-            this.setState({
-              previewImage: url
-            });
-          })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      }
-    }
+  }
   updateData(props) {
 
     this.props.getPost(props);
@@ -82,20 +68,20 @@ class PostDetail extends Component<Props, State> {
       return <div className='container' style={{ textAlign: 'center' }}>{copy.no_post_results[this.props.lang]}</div>
     }
     const post = this.props.post;
+    const previewImage = post && post.PostImages[0];
     return (
       <div className="container">
-        {/* update when multiple image uploads allowed: */}
-        {this.state.previewImage && <ImageModal
+        {previewImage && <ImageModal
           isActive={this.state.galleryModalActive}
-          images={[this.state.previewImage]}
+          imageStorageLocations={[previewImage.storage_location]}
           onClose={this.hideModal} />}
-        <div style={{ height: '300px' }}>
-          {this.state.previewImage &&
+        <div style={{ height: '300px', marginBottom: '24px' }}>
+          {previewImage &&
             <a onClick={this.showModal}>
-              <ExifOrientationImage
+              <CacheableImage
+                storageLocation={previewImage.storage_location}
                 height={300}
-                src={this.state.previewImage}
-            />
+              />
           </a>}
         </div>
         <InfoField

@@ -7,7 +7,8 @@ import ExifOrientationImage from './ExifOrientationImage';
 
 type Props = {
   storageLocation: string,
-  imageCache: {[string]: string}
+  imageCache: {[string]: string},
+  height: ?number
 }
 
 type State = {
@@ -52,7 +53,7 @@ class CacheableImage extends Component<Props, State> {
   render() {
     if (this.state.imageURL) {
       return <ExifOrientationImage
-        height={null}
+        height={this.props.height}
         fill
         src={this.state.imageURL}
       />

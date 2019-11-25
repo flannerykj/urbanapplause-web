@@ -1,11 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import ExifOrientationImage from './ExifOrientationImage';
+import CacheableImage from './PostImage';
 import copy from '../copy';
 
 type Props = {
-  images: Uint8Array[],
+  imageStorageLocations: string[],
   isActive: boolean,
   onClose: () => void
 }
@@ -40,7 +40,7 @@ class ImageModal extends Component<Props, State> {
   }
   showNext = () => {
     var nextIndex = this.state.index + 1;
-    if (nextIndex < this.props.images.length) {
+    if (nextIndex < this.props.imageStorageLocations.length) {
       this.setState({
         index: nextIndex
       });
@@ -57,13 +57,13 @@ class ImageModal extends Component<Props, State> {
   }
 
   render() {
-    const { isActive, images, onClose } = this.props;
+    const { isActive, imageStorageLocations, onClose } = this.props;
     const arrowCommonClass = 'fa fa-2x'
     return(
       <div className={`modal ${isActive ? 'is-active' : ''}`}>
         <div class="modal-background"></div>
 
-        <h3 className='subtitle is-4 has-text-grey-lighter' style={{ marginTop: '24px', position: 'absolute', top: '0', textAlign: 'center' }}>{this.state.index + 1} of {images.length} images</h3>
+        <h3 className='subtitle is-4 has-text-grey-lighter' style={{ marginTop: '24px', position: 'absolute', top: '0', textAlign: 'center' }}>{this.state.index + 1} of {imageStorageLocations.length} images</h3>
         <div class="modal-content" style={{ width: '100%', maxWidth: '1000px' }}>
           <div className='image' style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'center' }}>
             <a onClick={this.showPrevious}>
@@ -74,11 +74,11 @@ class ImageModal extends Component<Props, State> {
 
             <div className="image is-centered" style={{ textAlign: 'center'}}>
 
-              <ExifOrientationImage src={images[this.state.index]}/>
+              <CacheableImage storageLocation={imageStorageLocations[this.state.index]} />
             </div>
 
             <a onClick={this.showNext}>
-              <span className={`icon is-large ${this.state.index < images.length - 1 ? 'has-text-grey-lighter' : 'has-text-grey'}`} >
+              <span className={`icon is-large ${this.state.index < imageStorageLocations.length - 1 ? 'has-text-grey-lighter' : 'has-text-grey'}`} >
               <i className={`fa fa-arrow-right ${arrowCommonClass}`} />
               </span>
             </a>
