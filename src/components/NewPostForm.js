@@ -17,7 +17,7 @@ import type { NewPost } from '../types/post';
 
 type Props = NavigationProps & {
   newPost: {
-
+    photo_date: ?string
   },
   history: {},
   authUser: {
@@ -121,7 +121,8 @@ class NewPostForm extends Component<Props, State> {
               <ChooseDate
                 lang={lang}
                 onChange={(value) =>{this.props.updateNewPost("photo_date", value)}}
-                date={newPost.photo_date}/>
+                date={newPost.photo_date}
+              />
 
               <TextInput
                 label={copy['description-field-label'][lang]}

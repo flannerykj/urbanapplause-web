@@ -1,6 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import moment from 'moment';
+import type { Moment } from 'moment';
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import scriptLoader from 'react-async-script-loader'
@@ -20,6 +21,11 @@ import type { SettingsState } from '../types/store';
 import type { Artist } from '../types/artist';
 import type { User } from '../types/user';
 import type { NewPost } from '../types/post';
+
+const parseExifDate = (dateString: string): Moment => {
+  // format is: 2019:11:19 22:01:39
+  return moment(dateString, 'YYYY:MM:DD HH:MM:SS');
+}
 
 type Props = {
   history: any,
@@ -97,15 +103,14 @@ class NewPostPage extends Component<Props, State> {
 
         const coords = buildCoordinatesFromExif(GPSLongitude, GPSLongitudeRef, GPSLatitude, GPSLatitudeRef);
 
-        const date = moment(DateTime);
-        if (date) {
-          setDateIfEmpty(date);
+        if (DateTime) {
+          setDateIfEmpty(parseExifDate(DateTime));
         }
         if (coords) {
           setGooglePlaceFromCoords(coords.lng, coords.lat);
         }
         exifData.push({
-          date,
+          DateTime,
           coords
         });
       });
