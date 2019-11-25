@@ -16,7 +16,8 @@ const initialstate: AppState = {
     data: null,
     loading: false,
     error: null
-  }
+  },
+  imageCache: {}
 };
 
 export default initialstate;

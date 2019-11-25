@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import ExifOrientationImg from '../../ExifOrientationImage';
+import CacheableImage from '../../PostImage';
 import {timeSince, formattedStringFromDate, getValidDate} from '../../../services/dateAndTime';
 import C from '../../../constants';
 import copy from '../../../copy';
@@ -24,32 +24,14 @@ type Props = {
   applaudPost: (number, number) => void,
 }
 type State = {
-  isModalActive: boolean,
-  imageSrc: string,
-  imageSrc: ?Uint8Array
+  isModalActive: boolean
 }
 class PostListItem extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      isModalActive: false,
-      imageSrc: null
+      isModalActive: false
     }
-  }
-  componentWillMount() {
-    const { post } = this.props;
-    const previewImage = post.PostImages.length ? post.PostImages[0] : null;
-    if (!previewImage) { return }
-    imageService.download(previewImage.storage_location)
-      .then((body) => {
-        console.log('body: ', body);
-        this.setState({
-          imageSrc: body
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
   handleDelete = () => {
     this.props.onDelete(this.props.post.id);
@@ -77,12 +59,13 @@ class PostListItem extends Component<Props, State> {
     const { post, lang, authUser}  = this.props;
     const cityCopy = post.Location ? copy['in-city'][lang].replace('$$', post.Location.city) : '';
     const previewImage = post.PostImages.length ? post.PostImages[0] : null;
+    console.log('preview image : ', previewImage);
     return(
       <div className="card">
         <a onClick={this.selectPost}>
           <div className='card-image is-5by3 is-vertical-center'>
-              {this.state.imageSrc && <ExifOrientationImg
-              src={this.state.imageSrc}
+            {previewImage && <CacheableImage
+              storageLocation={previewImage.storage_location}
               />}
             </div>
           </a>

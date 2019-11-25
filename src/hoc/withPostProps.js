@@ -214,7 +214,7 @@ export default function withPostProps(WrappedComponent) {
                 <button className="delete" aria-label="close" onClick={this.cancelDeletePost}></button>
               </header>
               <section className="modal-card-body">
-                {copy['confirm-delete-title'][lang]}
+                {copy['confirm-delete-body'][lang]}
               </section>
               <footer className="modal-card-foot">
                 <button className="button" onClick={this.cancelDeletePost}>{copy['cancel'][lang]}</button>

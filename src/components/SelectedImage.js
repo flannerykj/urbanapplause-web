@@ -2,10 +2,22 @@
 
 import React, { Component } from 'react';
 import copy from '../copy';
+import ExifOrientationImage from './ExifOrientationImage';
 
-class SelectedImage extends Component {
+type Props = {
+  removeImage: () => void,
+  lang: string,
+  imageSource: string,
+  index: number,
+  containerStyle: any
+}
 
-  constructor(props) {
+type State = {
+  isFocused: boolean
+}
+class SelectedImage extends Component<Props, State> {
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       isFocused: false
@@ -25,6 +37,7 @@ class SelectedImage extends Component {
     })
   }
   render() {
+    console.log('rendering');
     const { lang, imageSource, index } = this.props;
 
     const focusStyle = this.state.isFocused ? {
@@ -74,16 +87,25 @@ class SelectedImage extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
+            left: '0',
             display: this.state.isFocused ? 'inline' : 'none',
           }}
         />
-        <img style={{
-          objectFit: 'cover',
-          width: '100%',
-          height: '100%',
-          zIndex: '99',
-          }} src={imageSource} key={index} />
+        <div
+          style={{
+            objectFit: 'cover',
+            width: '100%',
+            height: '100%',
+            zIndex: '99',
+            }}
+          >
+          <ExifOrientationImage
+            fill={false}
+            height={null}
+            src={imageSource}
+          />
         </div>
+      </div>
     )
   }
 }

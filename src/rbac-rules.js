@@ -19,6 +19,10 @@ const rules: AuthRules = {
         if (!authUserId || !postOwnerId) return false;
         return authUserId === postOwnerId;
       },
+      "post:delete": ({ authUserId, postOwnerId }) => {
+        if (!authUserId || !postOwnerId) return false;
+        return authUserId === postOwnerId;
+      },
       "profile:delete": ({ authUserId, postOwnerId }) => {
         if (!authUserId || !postOwnerId) return false;
         return authUserId === postOwnerId;

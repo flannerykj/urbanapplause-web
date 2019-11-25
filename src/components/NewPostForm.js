@@ -24,7 +24,7 @@ type Props = NavigationProps & {
     data: ?User
   },
   lang: string,
-  filesBase64: Array<string|ArrayBuffer>,
+  fileURLs: Array<string|ArrayBuffer>,
   files: File[],
   newPost: NewPost,
   loading: boolean,
@@ -49,7 +49,8 @@ class NewPostForm extends Component<Props, State> {
     }
   }
   removeImage = (index: number) => {
-
+    console.log('remove');
+    this.props.removeImage(index);
   }
   render() {
     const lang = this.props.lang;
@@ -84,14 +85,15 @@ class NewPostForm extends Component<Props, State> {
             </div>
             <div
               style={{ width: '100%' }}>
-              {this.props.filesBase64.map((base64, i) => (
+              {this.props.fileURLs.map((url, i) => (
               <SelectedImage
                 containerStyle={{
                   height: '100px',
                   width: '100px',
                   borderRadius: '8px',
-                }}
-                imageSource={base64}
+                  }}
+                lang={lang}
+                imageSource={url}
                 index={i}
                 removeImage={() => this.removeImage(i)}
               />

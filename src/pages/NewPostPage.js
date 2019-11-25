@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 import scriptLoader from 'react-async-script-loader'
 import type { NavigationProps } from '../types/navigation';
+import { addImagesToCache } from '../actions/image-cache';
 import type { GoogleMapsPlace, Location } from '../types/location';
 import C from '../constants.js';
 import constants from '../constants';
@@ -24,13 +25,14 @@ type Props = {
   history: any,
   authUser: { data: ?User },
   lang: string,
-  settings: SettingsState
+  settings: SettingsState,
+  addImagesToCache: ({[string]: any}) => void
 }
 
 type State = {
   loading: bool,
   files: Array<File>,
-  filesBase64: Array<string | ArrayBuffer>,
+  fileURLs: Array<URL>,
   newPost: NewPost,
   createdPost: ?Post,
   error: ?string,
@@ -45,7 +47,7 @@ class NewPostPage extends Component<Props, State> {
       loading: false,
       error: null,
       files: [],
-      filesBase64: [],
+      fileURLs: [],
       newPost: {
         UserId: null,
         description: '',
@@ -115,20 +117,20 @@ class NewPostPage extends Component<Props, State> {
     }
   getBase64 = (file: File) => {
     var reader = new FileReader();
-    const addFile = (fileBase64: string|ArrayBuffer) => {
-      var files = this.state.filesBase64;
-      files.push(fileBase64);
+    const addFile = (fileURL: URL) => {
+      var urls = this.state.fileURLs;
+      urls.push(fileURL);
       this.setState({
-        filesBase64: files
+        fileURLs: urls
       });
     }
-   reader.readAsDataURL(file);
-    reader.onload = function () {
+   reader.onload = function () {
       addFile(reader.result);
    };
    reader.onerror = function (error) {
      console.log('Error: ', error);
    };
+   reader.readAsDataURL(file);
   }
 
   onSubmit = () => {
@@ -162,7 +164,6 @@ class NewPostPage extends Component<Props, State> {
           address = neighbourhood
         }
       }
-
       entry.location = {
         coordinates: {
           longitude: entry.google_place.geometry.location.lng(),
@@ -190,8 +191,20 @@ class NewPostPage extends Component<Props, State> {
         post: entry
       }).then((json) => {
         if (json.post) {
-          const promises = this.state.files.map((file) => imageService.upload([file], json.post.id));
-          Promise.all(promises).then((res) => {
+          apiService.upload(`/posts/${json.post.id}/images`, this.state.files, 'images[]').then((res) => {
+            console.log('res: ', res);
+            if (this.state.files.length === res.images.length ) {
+              const cache = {};
+              for (var i = 0; i < res.images.length; i++) {
+                const storage_location: string = res.images[i].storage_location;
+                const objectURL = window.URL.createObjectURL(this.state.files[i]);
+                cache[storage_location] = objectURL;
+              }
+              console.log('cache: ', cache);
+              this.props.addImagesToCache(cache);
+            } else {
+              console.log('files length: ', this.state.files.length);
+            }
             this.setState({
               createdPost: json.post,
               loading: false
@@ -206,8 +219,7 @@ class NewPostPage extends Component<Props, State> {
         })
       });
   }
-
-    setGooglePlaceFromCoords = (lng, lat) => {
+  setGooglePlaceFromCoords = (lng, lat) => {
     var geocoder = new window.google.maps.Geocoder;
     var latlng = {lat, lng};
 
@@ -228,11 +240,11 @@ class NewPostPage extends Component<Props, State> {
   removeImage = (index: number) => {
     const files = this.state.files;
     files.splice(index, 1);
-    const filesBase64 = this.state.filesBase64;
-    filesBase64.splice(index, 1);
+    const fileURLs = this.state.fileURLs;
+    fileURLs.splice(index, 1);
     this.setState({
       files,
-      filesBase64
+      fileURLs
     });
   }
   updateNewPost = (field: string, value: ?string) => {
@@ -246,9 +258,9 @@ class NewPostPage extends Component<Props, State> {
     const lang = this.props.settings.languagePref;
     return (
       <NewPostForm
-        onCancel={() => { this.setState({ files: [], filesBase64: [] }) }}
+        onCancel={() => { this.setState({ files: [], fileURLs: [] }) }}
         files={this.state.files}
-        filesBase64={this.state.filesBase64}
+        fileURLs={this.state.fileURLs}
         newPost={this.state.newPost}
         loading={this.state.loading}
         error={this.state.error}
@@ -272,11 +284,8 @@ const mapStateToProps = function(appState){
     settings: appState.settings
   }
 }
-const mapDispatchToProps = function(dispatch){
-  return {
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(scriptLoader(
+
+export default connect(mapStateToProps, { addImagesToCache })(scriptLoader(
   [
     `https://maps.googleapis.com/maps/api/js?key=${constants.GOOGLE_MAPS_API_KEY}&libraries=places&language=${localStorage.getItem('languagePref')}`
   ]
