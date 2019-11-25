@@ -8,6 +8,23 @@
 @import 'custom/worksIndex';
 @import 'custom/comments';
 
+.gallery {
+
+  .grid-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(auto-fill, 200px);
+    grid-row-gap: 8px;
+    grid-column-gap: 8px;
+    .grid-item {
+      overflow: hidden;
+      height: 200px;
+      width: 200px;
+      cornerRadius: 8px;
+    }
+  }
+}
 .public-page-wrapper {
   margin-top: 48px;
 }

@@ -1,21 +1,29 @@
+// @flow
 import React, { Component } from 'react';
+import InfoField from './InfoField';
+import copy from '../copy.json';
+import type { Artist } from '../types/artist';
 
-class ArtistInfo extends Component {
-
+type Props = {
+  lang: string,
+  artist: Artist
+}
+class ArtistInfo extends Component<Props> {
   render() {
+    const lang = this.props.lang;
     if (this.props.artist) {
       const { artist } = this.props;
       return(
         <div>
-
-          <label className='label'>First name</label>
-          <p>{artist.first_name && artist.first_name.length ? artist.first_name : <i>Unknown</i>}</p>
-
-          <label className='label'>Last name</label>
-          <p>{artist.last_name && artist.last_name.length ? artist.last_name: <i>Unknown</i>}</p>
-
-          <label className='label'>Bio</label>
-          <p>{artist.bio && artist.bio.length ? artist.bio : <i>None provided</i>}</p>
+          <InfoField
+            label='Name'
+            value={artist.signing_name}
+          />
+          <InfoField
+            label='Bio'
+            value={artist.bio}
+            emptyText={copy.none_provided[lang]}
+          />
         </div>
       )
     } else {

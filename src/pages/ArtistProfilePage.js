@@ -8,6 +8,7 @@ import type { Artist } from '../types/artist';
 import type { Post } from '../types/post';
 import ArtistEditForm from '../components/ArtistEditForm';
 import PostGallery from '../components/PostGallery';
+import type { SettingsState } from '../types/store';
 
 type Props = {
   match: {
@@ -18,7 +19,8 @@ type Props = {
   history: any,
   authUser: { data: {} },
   lang: string,
-  auth: {}
+  auth: {},
+  settings: SettingsState
 }
 
 type State = {
@@ -72,7 +74,6 @@ class ArtistProfilePage extends Component<Props, State> {
     return apiService.get(`/artists/${artistId}`)
       .then((json) => {
         if (json.artist) {
-          console.log('got artist: ', json.artist);
         this.setState({
           artist: {
             editing: false,
@@ -82,7 +83,6 @@ class ArtistProfilePage extends Component<Props, State> {
           }
         });
       } else {
-        console.log(json);
         this.setState({
           artist: {
             ...this.state.artist,
@@ -92,7 +92,6 @@ class ArtistProfilePage extends Component<Props, State> {
       }
     })
     .catch((error) => {
-      console.log(error);
       this.setState({
         artist: {
           data: null,
@@ -110,9 +109,7 @@ class ArtistProfilePage extends Component<Props, State> {
       const artistId = this.props.match.params.id;
       return apiService.get("/posts?artistId=" + artistId)
         .then((json) => {
-          console.log('json: ', json);
           if (json.posts) {
-            console.log('got posts: ', json.posts);
           this.setState({
             posts: {
               data: json.posts,
@@ -121,7 +118,6 @@ class ArtistProfilePage extends Component<Props, State> {
             }
           });
         } else {
-          console.log(json);
           this.setState({
             posts: {
               data: [],
@@ -132,7 +128,6 @@ class ArtistProfilePage extends Component<Props, State> {
         }
       })
       .catch((error) => {
-        console.log(error);
         this.setState({
           posts: {
             data: [],
@@ -169,9 +164,10 @@ class ArtistProfilePage extends Component<Props, State> {
     const id = this.props.match.params.id;
     const artist = this.state.artist.data;
     const artistPosts = this.state.posts.data;
+    const lang = this.props.settings.languagePref;
     return (
       <div>
-        <h1 className='title is-1'>Artist profile: {artist && artist.signing_name}</h1>
+        <h1 className='title is-1'>{artist && artist.signing_name}</h1>
 
         {this.state.artist.editing ? (
         <div>
@@ -182,12 +178,15 @@ class ArtistProfilePage extends Component<Props, State> {
           />
         </div> ) : (
           <div>
-            <section className='section'>
-              <ArtistInfo artist={artist}/>
+            <div>
+              <ArtistInfo
+                artist={artist}
+                lang={lang}
+              />
               <button className='button' onClick={this.openForm}>Edit</button>
-            </section>
+            </div>
 
-            <section className='section'>
+            <div style={{ marginTop: '24px' }}>
               {artist && <h3 className='title is-3'>Posts by {artist.signing_name}</h3>}
               {this.state.posts.loading && !this.state.artist.loading ? <p>Loading...</p> : (
               <PostGallery
@@ -195,7 +194,7 @@ class ArtistProfilePage extends Component<Props, State> {
                 posts={this.state.posts.data}
                 total={this.state.posts.data.length}
               />)}
-            </section>
+            </div>
           </div>
         )
       }
