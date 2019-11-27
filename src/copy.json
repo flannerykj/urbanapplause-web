@@ -3,6 +3,50 @@
     "en": "",
     "fr": ""
   },
+  "done": {
+    "en": "Done",
+    "fr": "Terminé"
+  },
+  "blocker_username": {
+    "en": "Block $$",
+    "fr": "Bloquer $$"
+  },
+  "report_this_post": {
+    "en": "Report this post",
+    "fr": "Signaler le post"
+  },
+  "report_content_reason_prompt": {
+    "en": "What is your objection to this content?",
+    "fr": "Aidez-nous à comprendre. En quoi ce Post pose-t-il problème?"
+  },
+  "report_content_reason_notInterested": {
+    "en": "This Post doesn't interest me.",
+    "fr": "Ce Post ne m'intéresse pas."
+  },
+  "report_content_reason_suspiciousOrSpam": {
+    "en": "It's suspicious or spam",
+    "fr": "Il est suspect ou publie du spam."
+  },
+  "report_content_reason_sensitivePhoto": {
+    "en": "It displays a sensitive photo",
+    "fr": "Il contient une photo ou une vidéo sensible."
+  },
+  "report_content_reason_abusiveOrHarmful": {
+    "en": "It's abusive or harmful",
+    "fr": "Les propos tenus sont inappropriés ou dangereux."
+  },
+  "report_content_reason_selfHarmOrSuicide": {
+    "en": "It expresses intentions of self-harm or suicidal behavior",
+    "fr": "Il exprime des intentions suicidaires ou autodestructrices."
+  },
+  "report_content_success": {
+    "en": "Thank you for letting us know.",
+    "fr": "Merci de nous avoir informés. "
+  },
+  "report_content_learn_more": {
+    "en": "Learn more about reporting content",
+    "fr": "En savoir plus sur le signalement des infractions à nos règles"
+  },
   "load_more": {
     "en": "Load more",
     "fr": "Montre plus"

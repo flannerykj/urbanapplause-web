@@ -1,22 +1,27 @@
 // @flow
 import React, { Component } from 'react';
 import Can from './Can';
+import ReportContentModal from './ReportContentModal';
 import type { User } from '../types/user';
 import type { Post } from '../types/Post';
 
 type Props = {
   authUser: User,
-  post: Post
+  post: Post,
+  onDelete: () => void,
+  lang: string
 }
 type State = {
-  isActive: boolean
+  isActive: boolean,
+  showReportModal: boolean
 }
 
 class OptionsMenu extends Component<Props, State> {
   constructor(props: Props){
     super(props);
     this.state = {
-      isActive: false
+      isActive: false,
+      showReportModal: false
     }
   }
   toggleDropdown = () => {
@@ -24,8 +29,8 @@ class OptionsMenu extends Component<Props, State> {
       isActive: !this.state.isActive
     });
   }
-  handleClickOutside= (e) => {
-    if (this.refs.dropdown.contains(e.target)==false) {
+  handleClickOutside = (e: Event) => {
+    if (!this.refs.dropdown.contains(e.target)) {
       this.closeDropdown();
     }
   }
@@ -42,8 +47,18 @@ class OptionsMenu extends Component<Props, State> {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
+  onPressReportPost = () => {
+    this.setState({
+      showReportModal: true
+    });
+  }
+  onCloseReportModal = () => {
+    this.setState({
+      showReportModal: false
+    });
+  }
   render() {
-    const { onEdit, onDelete, authUser, post } = this.props;
+    const { onDelete, authUser, post, lang } = this.props;
     return(
       <div className='comment-options-menu' style={{width: '30px', float: 'right'}}>
 
@@ -74,7 +89,7 @@ class OptionsMenu extends Component<Props, State> {
                   no={() => (
                     <a
                       name='Flag'
-                      onClick={onDelete}
+                      onClick={this.onPressReportPost}
                       className="dropdown-item">
                       Flag post
                     </a>
@@ -84,6 +99,12 @@ class OptionsMenu extends Component<Props, State> {
             </div>
 
           </div>
+          <ReportContentModal
+            post={post}
+            isActive={this.state.showReportModal}
+            onClose={this.onCloseReportModal}
+            lang={lang}
+          />
         </div>
     )
   }
