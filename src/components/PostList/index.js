@@ -246,15 +246,15 @@ class PostList extends Component<Props, State> {
           <div className="modal-background"></div>
           <div className="modal-card">
             <header className="modal-card-head">
-              <p className="modal-card-title">{copy['confirm-delete-title'][lang].replace('$$', 'post')}</p>
+              <p className="modal-card-title">{copy['confirm-delete-post-title'][lang]}</p>
               <button className="delete" aria-label="close" onClick={this.cancelDeletePost}></button>
             </header>
             <section className="modal-card-body">
-              {copy['confirm-delete-body'][lang]}
+              {copy['confirm-delete-post-body'][lang]}
             </section>
             <footer className="modal-card-foot">
               <button className="button" onClick={this.cancelDeletePost}>{copy['cancel'][lang]}</button>
-              <button className="button is-danger" onClick={this.onConfirmDeletePost}>Delete</button>
+              <button className="button is-danger" onClick={this.onConfirmDeletePost}>{copy.delete[lang]}</button>
             </footer>
           </div>
           <button className="modal-close is-large" aria-label="close" onClick={this.cancelDeletePost}></button>

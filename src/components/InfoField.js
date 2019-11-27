@@ -12,7 +12,7 @@ type Props = {
 class InfoField extends Component<Props> {
   static defaultProps = {
     value: null,
-    emptyText: 'None provided',
+    emptyText: '',
     children: null
   }
   render() {

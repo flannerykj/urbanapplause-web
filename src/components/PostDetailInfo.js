@@ -7,7 +7,6 @@ import type { Post } from '../types/post';
 import copy from '../copy';
 import withPostProps from '../hoc/withPostProps';
 import InfoField from './InfoField'
-import CommentList from './CommentList';
 import ImageModal from './ImageModal';
 import imageService from '../services/image-service';
 import CacheableImage from './PostImage';
@@ -15,30 +14,19 @@ import CacheableImage from './PostImage';
 import C from '../constants';
 
 type Props = NavigationProps & {
-  post: Post
+  post: Post,
+  lang: string
 }
 
 type State = {
   galleryModalActive: boolean
 }
 class PostDetail extends Component<Props, State> {
-    constructor(props) {
+    constructor(props: Props) {
     super(props);
     this.state = {
       galleryModalActive: false
     }
-  }
-  componentDidMount() {
-    this.updateData(this.props);
-  }
-  componentWillReceiveProps(nextProps: Props){
-    if (this.props.postId !== nextProps.postId) {
-      this.updateData(nextProps);
-    }
-  }
-  updateData(props) {
-
-    this.props.getPost(props);
   }
   showModal = () => {
     this.setState({
@@ -51,22 +39,7 @@ class PostDetail extends Component<Props, State> {
     });
   }
   render() {
-    const lang = this.props.settings.languagePref;
-    if (this.props.loading) {
-      return (<div className='postlist-container'>{copy['loading'][lang]}...</div>)
-    }
-    if (this.props.error) {
-      return (
-        <article className="message is-danger">
-          <div className="message-body">
-            {this.props.error}
-          </div>
-        </article>
-      );
-    }
-    if (!this.props.post) {
-      return <div className='container' style={{ textAlign: 'center' }}>{copy.no_post_results[this.props.lang]}</div>
-    }
+    const lang = this.props.lang;
     const post = this.props.post;
     const previewImage = post && post.PostImages[0];
     return (
@@ -108,23 +81,9 @@ class PostDetail extends Component<Props, State> {
         >
           {post.description}
         </InfoField>
-        <hr/>
-
-         <h3 className='title is-6' id='comments' name='comments' ref='comments'>
-           Comments
-         </h3>
-
-         <CommentList
-           post={post}
-           lang={lang}
-           auth={this.props.auth}
-           authUser={this.props.authUser}
-           history={this.props.history}
-           query={{ postId: post.id }}
-         />
       </div>
     );
   }
 };
 
-export default withPostProps(PostDetail);
+export default PostDetail;

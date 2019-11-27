@@ -1,22 +1,25 @@
+// @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import TextInput from '../components/TextInput';
 import copy from '../copy';
 import AuthForm from '../components/AuthForm';
+import type { SettingsState } from '../types/store';
 
-class LoginPage extends Component {
+type Props = {
+  settings: SettingsState
+}
+
+class LoginPage extends Component<Props> {
   render() {
-    const lang = this.props.settings ? this.props.settings.languagePref : 'en';
+    const lang = this.props.settings.languagePref;
     return (
       <div>
         <h1 className='title is-1'>{copy['login'][lang]}</h1>
         <AuthForm
           isNewUser={false}
           history={this.props.history}
-          settings={this.props.settings}
-          auth={this.props.auth}
-          checkPassword={this.props.checkPassword}
-          authenticate={this.props.authenticate}
         />
         <div
           style={{ marginTop: '24px' }}
@@ -32,4 +35,5 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+
+export default connect((appState) => ({ settings: appState.settings }))(LoginPage);

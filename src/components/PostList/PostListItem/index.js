@@ -65,7 +65,6 @@ class PostListItem extends Component<Props, State> {
     const { post, lang, auth, authUser}  = this.props;
     const cityCopy = post.Location ? copy['in-city'][lang].replace('$$', post.Location.city) : '';
     const previewImage = post.PostImages.length ? post.PostImages[0] : null;
-    console.log('preview image : ', previewImage);
     return(
       <div className="card">
         <a onClick={this.showImageModal}>

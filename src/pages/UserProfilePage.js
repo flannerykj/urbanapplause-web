@@ -50,9 +50,9 @@ class UserProfilePage extends Component<Props, State> {
     }
   }
   componentWillMount(){
-    const tabs = ["Profile", "Applause", "Posts"];
+    const tabs = ["profile", "applause", "posts"];
     if (this.isAuthUser()) {
-      tabs.push("Account");
+      tabs.push("account");
     }
     this.setState({
       tabs: tabs,
@@ -152,15 +152,15 @@ class UserProfilePage extends Component<Props, State> {
     const userId = this.props.match.params.id;
 
     switch(this.state.activeTab) {
-      case "Profile":
+      case "profile":
         if (!user || this.state.user.loading) {
-          tabContent = <div>Loading...</div>;
+          tabContent = <div>{copy.loading[lang]}...</div>;
           break;
         }
         tabContent = (
           <div>
             <Can
-              role={this.props.auth.data.role}
+              role={this.props.auth.role}
               perform='profile:update'
               data={{
                 authUserId: this.props.authUser.data.id,
@@ -171,7 +171,7 @@ class UserProfilePage extends Component<Props, State> {
                 className='button'
                 style={{ float: 'right' }}
                 onClick={this.toggleEditingMode}>
-                {this.state.isEditing ? 'Cancel' : 'Edit'}
+                {this.state.isEditing ? copy.cancel[lang] : copy.edit[lang]}
               </button>
               )}
               no={() => null }
@@ -192,7 +192,7 @@ class UserProfilePage extends Component<Props, State> {
           </div>
         );
         break;
-      case "Applause":
+      case "applause":
         tabContent = (
           <PostList
             auth={this.props.auth}
@@ -206,7 +206,7 @@ class UserProfilePage extends Component<Props, State> {
         )
         break;
 
-      case "Posts":
+      case "posts":
           tabContent = (
             <PostList
               settings={this.props.settings}
@@ -218,8 +218,8 @@ class UserProfilePage extends Component<Props, State> {
             />
           )
         break;
-      case "Account":
-        tabContent = <div> <label className='label'>Email</label>{this.state.user.data && this.state.user.data.email}</div>
+      case "account":
+        tabContent = <div> <label className='label'>{copy.email[lang]}</label>{this.state.user.data && this.state.user.data.email}</div>
         break;
       default:
           tabContent = <span>No tab selected</span>
@@ -240,7 +240,7 @@ class UserProfilePage extends Component<Props, State> {
                 key={i}
                 value={i}
                 onClick={() => this.setActiveTab(tab)}>
-                {tab}
+                {copy[tab][lang]}
               </a>
             </li>
             )})}

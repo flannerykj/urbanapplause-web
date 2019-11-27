@@ -40,12 +40,12 @@ class Footer extends Component<Props> {
                 <p>
                   <Link
                     to='/privacy-policy'
-                  >{copy['privacy-policy'][lang]}</Link>
+                  >{copy['privacy_policy'][lang]}</Link>
                 </p>
                 <p>
                   <Link
                     to='/terms-of-service'
-                  >{copy['terms-of-service'][lang]}</Link>
+                  >{copy['terms_of_service'][lang]}</Link>
                 </p>
               </div>
 

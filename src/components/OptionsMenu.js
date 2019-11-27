@@ -5,6 +5,7 @@ import ReportContentModal from './ReportContentModal';
 import type { User } from '../types/user';
 import type { Post } from '../types/Post';
 import type { AuthState } from '../types/store';
+import copy from '../copy.json';
 
 type Props = {
   authUser: User,
@@ -85,7 +86,7 @@ class OptionsMenu extends Component<Props, State> {
                       name='Delete'
                       onClick={onDelete}
                       className="dropdown-item">
-                      Delete
+                      {copy.delete[lang]}
                     </a>
                   )}
                   no={() => (
@@ -93,7 +94,7 @@ class OptionsMenu extends Component<Props, State> {
                       name='Flag'
                       onClick={this.onPressReportPost}
                       className="dropdown-item">
-                      Flag post
+                      {copy.report_this_post[lang]}
                     </a>
                   )}
                 />

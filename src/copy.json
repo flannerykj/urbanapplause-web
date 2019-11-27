@@ -1,4 +1,16 @@
 {
+  "site_title": {
+    "en": "Urban Applause",
+    "fr": "Urban Applause"
+  },
+  "tagline": {
+    "en": "The street art app",
+    "fr": "L'app pour le street art"
+  },
+  "agreement_on_register": {
+    "en": "By signing up, you agree to the $$ and $$",
+    "fr": "En appuyant sur S'inscrire, vous acceptez nos $$ et nos $$"
+  },
   "redo-search": {
     "fr": "Rechercher dans cette zone"
   },
@@ -9,9 +21,17 @@
     "en": "",
     "fr": ""
   },
+  "none_provided": {
+    "en": "None provided",
+    "fr": ""
+  },
   "done": {
     "en": "Done",
     "fr": "Terminé"
+  },
+  "account": {
+    "en": "Account",
+    "fr": "Compte"
   },
   "blocker_username": {
     "en": "Block $$",
@@ -57,23 +77,39 @@
     "en": "Load more",
     "fr": "Voir plus"
   },
-  "confirm-delete-title": {
+  "confirm-delete-post-title": {
     "en": "Are you sure you want to delete this $$?",
-    "fr": "Are you sure you want to delete this $$?"
+    "fr": "Supprimer le post?"
+  },
+  "confirm-delete-post-body": {
+    "en": "This cannot be undone",
+    "fr": "Il n'est pas possible d'annuller cette opération."
+  },
+  "confirm-delete-comment-title": {
+    "en": "Are you sure you want to delete this comment?",
+    "fr": "Supprimer le réponse?"
   },
   "confirm-delete-body": {
     "en": "This cannot be undone",
-    "fr": ""
+    "fr": "Il n'est pas possible d'annuller cette opération."
+  },
+  "delete_post_success": {
+    "en": "Your post has been deleted",
+    "fr": "Votre post a été supprimé"
+  },
+  "delete_comment_success": {
+    "en": "Your comment has been deleted",
+    "fr": "Votre réponse a été supprimé"
   },
   "showing-results-for": {
     "en": "Showing results for:",
     "fr": "Résultats pour:"
   },
-  "privacy-policy": {
+  "privacy_policy": {
     "en": "Privacy Policy",
     "fr": "Politique de confidentialité"
   },
-  "terms-of-service": {
+  "terms_of_service": {
     "en": "Terms of Service",
     "fr": "Conditions d’utilisation"
   },
@@ -119,7 +155,7 @@
   },
   "switch-to-login": {
     "en": "Already have an account? Sign In",
-    "fr": "Connexion "
+    "fr": "Vous avez déjà un compte? Connexion "
   },
   "login": {
     "en": "Log In",
@@ -130,8 +166,8 @@
     "fr": "Connexion"
   },
   "switch-to-register": {
-    "en": "Don't have an account? Sign up now",
-    "fr": "Nouveau sur Urban Applause? S'inscrire maintenant »"
+    "en": "Don't have an account? Sign up",
+    "fr": "Vous n'avez pas de compte? S'inscrire"
   },
   "add-new-post": {
     "en": "New Post",
@@ -163,23 +199,31 @@
   },
   "comment": {
     "en": "comment",
-    "fr": "commentaire"
+    "fr": "réponse"
   },
   "comments": {
     "en": "Comments",
-    "fr": "Commentaires"
+    "fr": "Réponses"
   },
   "no-comments": {
     "en": "No comments",
-    "fr": "Pas de commentaires"
+    "fr": "Pas de réponses"
   },
   "logout": {
     "en": "Log Out",
-    "fr": "Déconnexion "
+    "fr": "Se Déconnecter "
   },
   "profile": {
     "en": "Profile",
-    "fr": "Mon Profil"
+    "fr": "Profil"
+  },
+  "applause": {
+    "en": "Applause",
+    "fr": "Applaudissements"
+  },
+  "comments": {
+    "en": "Comments",
+    "fr": "Réponses"
   },
   "posts": {
     "en": "Posts",
@@ -203,7 +247,7 @@
   },
   "email": {
     "en": "Email",
-    "fr": "Courriel"
+    "fr": "Email"
   },
   "password": {
     "en": "Password",
@@ -281,7 +325,7 @@
   },
   "comment-cta": {
     "en": "Leave a comment",
-    "fr": "Votre commentaire..."
+    "fr": "Votre réponse..."
   },
   "next": {
     "en": "Next",
@@ -413,7 +457,7 @@
   },
   "to-comment": {
     "en": "to comment",
-    "fr": "pour commentaire"
+    "fr": "pour répondre"
   },
   "or": {
     "en": "or",

@@ -52,7 +52,6 @@ class AuthForm extends Component<Props, State> {
     var newState = this.state;
     newState[fieldName] = newValue;
     this.setState(newState);
-    console.log('state: ', this.state);
   }
   checkPassword = (password) => {
   }
@@ -63,7 +62,6 @@ class AuthForm extends Component<Props, State> {
       username: this.state.username,
       password: this.state.password,
     }
-    console.log('form: ', form);
     const lang = this.props.settings.languagePref;
     var errors = {}
     if (!form.email || !form.email.length) {
@@ -84,9 +82,7 @@ class AuthForm extends Component<Props, State> {
   }
 
   handleKeyDown = (e: KeyboardEvent) => {
-    console.log(e.keyCode);
     if (e.keyCode ==13){
-      console.log('submitt');
       this.handleSubmit();
     }
   }
