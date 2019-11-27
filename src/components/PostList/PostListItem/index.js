@@ -21,17 +21,17 @@ type Props = {
   post: Post,
   lang: string,
   onDelete: (number) => void,
-  selectPost: (number) => void,
+  // selectPost: (number) => void,
   applaudPost: (number, number) => void,
 }
 type State = {
-  isModalActive: boolean
+  isImageModalActive: boolean
 }
 class PostListItem extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      isModalActive: false
+      isImageModalActive: false
     }
   }
   handleDelete = () => {
@@ -43,18 +43,21 @@ class PostListItem extends Component<Props, State> {
   handleApplaud = () => {
     this.props.applaudPost(this.props.post.id, this.props.authUser && this.props.authUser.id);
   }
-  selectPost = () => {
+  /* selectPost = () => {
     this.props.selectPost(this.props.post.id);
-  }
-  showModal = () => {
+  } */
+  showImageModal = () => {
     this.setState({
-      isModalActive: true
+      isImageModalActive: true
     });
   }
-  hideModal = () => {
+  hideImageModal = () => {
     this.setState({
-      isModalActive: false
+      isImageModalActive: false
     });
+  }
+  flagPost = () => {
+    // @TODO
   }
   render() {
     const { post, lang, authUser}  = this.props;
@@ -63,7 +66,7 @@ class PostListItem extends Component<Props, State> {
     console.log('preview image : ', previewImage);
     return(
       <div className="card">
-        <a onClick={this.selectPost}>
+        <a onClick={this.showImageModal}>
           <div className='card-image is-5by3 is-vertical-center'>
             {previewImage && <CacheableImage
               storageLocation={previewImage.storage_location}
@@ -79,11 +82,9 @@ class PostListItem extends Component<Props, State> {
                 {post.Artists && post.Artists.length ? post.Artists.map((artist, i) => <Link to={`/artists/${artist.id}`}>{artist.signing_name} {i < post.Artists.count - 1 ? ', ' : ''}</Link>) : <span>{copy['unknown-artist'][lang]} </span>}
                 {cityCopy}
               </h3>
-
               <h5 className='subtitle is-5' style={{ verticalAlign: 'middle' }}>
                 {post.Location ? [post.Location.street_address, post.Location.city, post.Location.country, post.Location.postal_code].join(', ') : 'Unknown location'}
               </h5>
-
               <p>
                 {copy['posted-by'][lang]} <Link to={`/users/${post.User ? post.User.id : 0}`}>{post.User ? post.User.username : 'Unknown'} </Link>
                 {moment(new Date(post.createdAt)).calendar()}
@@ -92,9 +93,11 @@ class PostListItem extends Component<Props, State> {
 
             <div className='media-right'>
               <OptionsMenu
+                lang={lang}
                 authUser={authUser}
                 post={post}
                 onDelete={this.handleDelete}
+                onFlag={this.flagPost}
               />
             </div> {/* end of media right */}
           </div> {/* end of media */}
@@ -114,7 +117,12 @@ class PostListItem extends Component<Props, State> {
               />
             </div> { /* end of content */ }
           </div>{ /* end of content */ }
-        </div> { /* end of card-content */ }
+          </div> { /* end of card-content */ }
+
+          <ImageModal
+            isActive={this.state.isImageModalActive}
+            imageStorageLocations={post.PostImages.map((img) => img.storage_location)}
+            onClose={this.hideImageModal} />
       </div>  // end of card
     )
   }

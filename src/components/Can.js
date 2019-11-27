@@ -12,7 +12,6 @@ const check = (rules: AuthRules, role: ?Role, action: string, data: ?{string: an
     // role is not present in the rules
     return false;
   }
-
   const staticPermissions = permissions.static;
 
   if (staticPermissions && staticPermissions.includes(action)) {

@@ -57,7 +57,7 @@ class PostList extends Component<Props, State> {
       this.getPosts(nextProps);
     }
   }
-  getPosts(props: Props) {
+  getPosts = (props: Props) => {
     const query = {
       ...props.query,
       page: this.state.page,
@@ -72,6 +72,8 @@ class PostList extends Component<Props, State> {
     return apiService.get("/posts", {}, query)
       .then((json) => {
         if (json.posts) {
+          console.log('json posts: ', json.posts);
+          console.log('state posts: ', this.state.posts);
           this.setState({
             loading: false,
             posts: json.posts.concat(this.state.posts)
