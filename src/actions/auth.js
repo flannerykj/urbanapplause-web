@@ -9,6 +9,12 @@ import apiService from '../services/api-service';
 import authService from '../services/auth-service';
 let baseURL = C.SERVER_URL;
 
+
+export const resetAuthForm = () => {
+  return function(dispatch: Dispatch, getState: GetState){
+    return dispatch({ type: 'RESET_AUTH_FORM' });
+  };
+}
 export const authenticate = (values: AuthForm, isNewUser: boolean) => {
   return function(dispatch: Dispatch, getState: GetState){
     if (isNewUser) {
@@ -22,29 +28,24 @@ export const authenticate = (values: AuthForm, isNewUser: boolean) => {
 const onLogin = (values: AuthForm) => {
   return function(dispatch: Dispatch, getState: GetState){
     dispatch({ type: 'AUTH_REQUEST' });
-    return fetch(baseURL + "/public/login", {
-      method: "POST",
-      body: JSON.stringify({ user: values }),
-      headers: {"Content-Type": "application/json"}
-    })
-      .then(res => res.json())
+    return apiService.post('/login', { user: values })
       .then((result) => {
         if (result.error) {
           return dispatch({ type:'AUTH_ERROR', error: result.error.message });
         } else {
-          dispatch({ type: 'GET_AUTH_USER_SUCCESS', user: result.user });
-          return dispatch(onAuthSuccess(result.access_token, result.user));
+          return dispatch(onAuthSuccess(result.access_token, result.refresh_token, result.user));
         }
-        })
+      })
       .catch((error) => {
         return dispatch({ type:'AUTH_ERROR', error });
       });
   }
 }
 
-const onAuthSuccess = (access_token: string, user: User) => {
+const onAuthSuccess = (access_token: string, refresh_token: string, user: User) => {
   return function(dispatch: Dispatch, getState: GetState){
-    authService.beginSession(access_token, null, user);
+    authService.beginSession(access_token, refresh_token, user);
+    dispatch({ type: 'GET_AUTH_USER_SUCCESS', user: Object.assign({}, user, { role: authService.role }) });
     return dispatch({ type: 'AUTH_SUCCESS', data: { }});
   }
 }
@@ -52,16 +53,12 @@ const onAuthSuccess = (access_token: string, user: User) => {
 const onRegister = (values: AuthForm) => {
   return function(dispatch: Dispatch, getState: GetState){
     dispatch({type: 'AUTH_REQUEST'});
-    return fetch(baseURL + "/public/register", {method: "POST", body: JSON.stringify({ user: values }), headers: {'Content-Type': 'application/json'}})
-      .then((res) => {
-        return res.json()
-      })
+    return apiService.post('/register', { user: values })
       .then((result) => {
         if (result.error) {
           return dispatch({ type:'AUTH_ERROR', error: result.error.message });
         }
-        dispatch({ type: 'GET_AUTH_USER_SUCCESS', user: result.user });
-        return dispatch(onAuthSuccess(result.access_token, result.user));
+        return dispatch(onAuthSuccess(result.access_token, result.refresh_token, result.user));
       })
       .catch((error) => {
         dispatch({ type:'AUTH_ERROR', error });
