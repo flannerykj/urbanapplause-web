@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class PrivacyPolicy extends Component {
   render() {
@@ -8,13 +9,14 @@ class PrivacyPolicy extends Component {
         <div className='_section'>
           <p>Urban Applause is an Open Source app. This SERVICE is provided by at no cost and is intended for use as is.</p>
 
-          <p>This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.</p>
+          <p>This page is used to inform visitors of my policies regarding the collection, use, and disclosure of Personal Information, for those who decide to use my Service.</p>
 
           <p>If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy.</p>
 
-          <p>The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Urban Applause unless otherwise defined in this Privacy Policy.</p>
+          <p>The terms used in this Privacy Policy have the same meanings as in our <Link to='/terms-of-service'>Terms of Service</Link> on the Urban Applause website, unless otherwise defined in this Privacy Policy.</p>
 
-          <p> Information Collection and Use Beyond the information Apple provides to developers that you can decide to provide, Urban Applause also uses Firebase Services within the app (Firebase's Privacy Policy can be found here, note that Urban Applause only uses a small subset of Firebase's many services). This helps to identify crashes and stability issues (Crashlytics, Performance Monitoring) and why they're caused (eg: a post that is crashing a lot of devices), which greatly speeds up and eases the ability to swiftly fix them. Firebase Analytics is used within the app too in order to better understand which features are being used (eg: what percentage of users use light versus dark mode) to be able to better make development decisions and choose where to focus development effort. The information collected is anonymous. Urban Applause does not sell or rent your data, and the anonymous information is only collected to help make the app better.</p>
+          <h3 className='title is-3'>Information Collection and Use</h3>
+          <p><b>iOS App:</b> Beyond the information Apple provides to developers that you can decide to provide, Urban Applause also uses Firebase Services within the app (Firebase's Privacy Policy can be found <a href='https://firebase.google.com/support/privacy' target='_blank'>here</a>, note that Urban Applause only uses a small subset of Firebase's many services). This helps to identify crashes and stability issues (Crashlytics, Performance Monitoring) and why they're caused (eg: a post that is crashing a lot of devices), which greatly speeds up and eases the ability to swiftly fix them. Firebase Analytics is also used within the app in order to better understand which features are being used in order to make development decisions and choose where to focus development effort. The information collected is anonymous. Urban Applause does not sell or rent your data, and the anonymous information is only collected to help make the app better.</p>
         </div>
         <div className='_section'>
           <h3 className='title is-3'>Cookies</h3>
@@ -45,7 +47,7 @@ class PrivacyPolicy extends Component {
           <div className='_section'>
           <h3 className='title is-3'>Children’s Privacy</h3>
 
-          <p>These Services do not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children under 13. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact me so that I will be able to do necessary actions.</p>
+          <p>These Services do not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children under 13. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please <Link to='/support'>contact me</Link> so that I remove this content.</p>
 
           </div>
           <div className='_section'>
