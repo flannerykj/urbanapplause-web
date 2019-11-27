@@ -28,7 +28,11 @@ class IntroPage extends Component {
               auth={this.props.auth}
               checkPassword={this.props.checkPassword}
               authenticate={this.props.authenticate}
-            />
+            >
+              <p style={{ marginBottom: '24px' }}>
+                By signing up, you agree to the <Link to='/terms-of-service'>Terms of Service</Link> and <Link to='/privacy-policy'>Privacy Policy</Link>
+              </p>
+            </AuthForm>
             <div
               style={{ marginTop: '24px' }}
             >

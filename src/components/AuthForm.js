@@ -5,9 +5,11 @@ import { NavigationState, NavigationScreenProp } from 'react-router-dom';
 import TextInput from '../components/TextInput';
 import copy from '../copy';
 import apiService from '../services/api-service';
-import { authenticate } from '../actions/auth';
+import { authenticate, resetAuthForm } from '../actions/auth';
 
 type Props = NavigationScreenProp<NavigationState> & {
+  resetAuthForm: () => void,
+  children: ?any
 }
 
 type State = {
@@ -17,7 +19,7 @@ type State = {
   errors: {[string]: string}
 }
 class AuthForm extends Component<Props, State> {
-  constructor(props){
+  constructor(props: Props){
     super(props);
     this.state = {
       email: '',
@@ -25,6 +27,9 @@ class AuthForm extends Component<Props, State> {
       password: '',
       errors: {}
     }
+  }
+  componentWillMount() {
+    this.props.resetAuthForm();
   }
   componentWillReceiveProps(nextProps){
     if (nextProps.auth.loggedIn) {
@@ -78,7 +83,7 @@ class AuthForm extends Component<Props, State> {
     }
   }
 
-  handleKeyDown = (e) => {
+  handleKeyDown = (e: KeyboardEvent) => {
     console.log(e.keyCode);
     if (e.keyCode ==13){
       console.log('submitt');
@@ -163,7 +168,7 @@ class AuthForm extends Component<Props, State> {
               }
             </div>
             : ''}
-
+            {this.props.children}
             {!this.props.auth.loading && this.props.auth.error &&
             <div className='notification is-danger'>{this.props.auth.error}</div>}
               <button
@@ -181,5 +186,6 @@ const mapStateToProps = (appState) => ({
 });
 
 export default connect(mapStateToProps, {
-  authenticate
+  authenticate,
+  resetAuthForm
 })(AuthForm);
