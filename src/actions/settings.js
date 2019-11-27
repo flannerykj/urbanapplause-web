@@ -1,4 +1,6 @@
 import C from '../constants';
+import moment from 'moment';
+import 'moment/min/locales'
 
 let baseURL = C.SERVER_URL;
 
@@ -11,6 +13,7 @@ const initSettings = () => {
   }
 }
 export const setLanguage = (languagePref) => {
+  moment.locale(languagePref);
   return function(dispatch, getState) {
     localStorage.setItem('languagePref', languagePref)
     dispatch({type: 'SET_LANGUAGE', languagePref: languagePref});

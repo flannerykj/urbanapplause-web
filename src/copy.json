@@ -1,4 +1,10 @@
 {
+  "redo-search": {
+    "fr": "Rechercher dans cette zone"
+  },
+  "no-results-found": {
+    "fr": "Aucun résultat trouvé."
+  },
   "template": {
     "en": "",
     "fr": ""
@@ -49,7 +55,7 @@
   },
   "load_more": {
     "en": "Load more",
-    "fr": "Montre plus"
+    "fr": "Voir plus"
   },
   "confirm-delete-title": {
     "en": "Are you sure you want to delete this $$?",

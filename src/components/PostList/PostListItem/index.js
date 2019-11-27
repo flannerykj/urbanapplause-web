@@ -40,7 +40,7 @@ class PostListItem extends Component<Props, State> {
     this.props.onDelete(this.props.post.id);
   }
   componentWillReceiveProps(nextProps: Props){
-    moment.locale(nextProps.lang);
+    // moment.locale(nextProps.lang);
   }
   handleApplaud = () => {
     this.props.applaudPost(this.props.post.id, this.props.authUser && this.props.authUser.id);
