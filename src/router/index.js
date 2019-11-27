@@ -94,6 +94,7 @@ export const router = (store: Store ) => (
                 { /* <Route exact path='/artists' component={ArtistListPage}/> */ }
                 <PrivateRoute exact path='/artists/new' component={ArtistFormPage}/>
                 <PrivateRoute exact path='/artists/:id' component={ArtistProfilePage}/>
+                <Route path='/:route' component={ErrorPage}/>
               </Switch>
             </Route>
             <Route path='/:route' component={ErrorPage}/>
