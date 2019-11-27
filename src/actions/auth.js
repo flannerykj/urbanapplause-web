@@ -45,8 +45,8 @@ const onLogin = (values: AuthForm) => {
 const onAuthSuccess = (access_token: string, refresh_token: string, user: User) => {
   return function(dispatch: Dispatch, getState: GetState){
     authService.beginSession(access_token, refresh_token, user);
-    dispatch({ type: 'GET_AUTH_USER_SUCCESS', user: Object.assign({}, user, { role: authService.role }) });
-    return dispatch({ type: 'AUTH_SUCCESS', data: { }});
+    dispatch({ type: 'GET_AUTH_USER_SUCCESS', user });
+    return dispatch({ type: 'AUTH_SUCCESS', role: authService.role });
   }
 }
 
@@ -73,7 +73,6 @@ const checkPassword = (password: string) => {
         return res.json()
       })
       .then((result) => {
-        console.log('result: ', result);
         return dispatch({ type: 'GET_PASSWORD_CHECK_SUCCESS', check: result.feedback });
       })
       .catch((error) => {
@@ -89,19 +88,14 @@ const onLogout = () => {
 }
 
 const checkLocalAuthState = () => {
-  console.log('check local auth state');
   return function(dispatch: Dispatch, getState: GetState){
     if (authService.isAuthenticated) {
       const user = authService.user;
-      user.role = authService.role;
       const expiry = authService.tokenExpiry;
       dispatch({
         type: 'AUTH_SUCCESS',
-        data: {
-          user,
-          role: authService.role,
-          expires: expiry
-        }
+        role: authService.role,
+        expires: expiry
       });
       return dispatch({
         type: 'GET_AUTH_USER_SUCCESS',

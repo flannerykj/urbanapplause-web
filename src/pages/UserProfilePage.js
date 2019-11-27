@@ -11,9 +11,10 @@ import Can from '../components/Can';
 import type { User } from '../types/user';
 import type { Post } from '../types/post';
 import type { Applause } from '../types/applause';
-import type { SettingsState, AuthUserState } from '../types/store';
+import type { SettingsState, AuthUserState, AuthState } from '../types/store';
 
 type Props = NavigationProps & {
+  auth: AuthState,
   match: {
     params: {
       id: number // id of selected user
@@ -159,7 +160,7 @@ class UserProfilePage extends Component<Props, State> {
         tabContent = (
           <div>
             <Can
-              role={this.props.authUser.data.role}
+              role={this.props.auth.data.role}
               perform='profile:update'
               data={{
                 authUserId: this.props.authUser.data.id,
@@ -194,6 +195,7 @@ class UserProfilePage extends Component<Props, State> {
       case "Applause":
         tabContent = (
           <PostList
+            auth={this.props.auth}
             settings={this.props.settings}
             history={this.props.history}
             authUser={this.props.authUser && this.props.authUser.data}

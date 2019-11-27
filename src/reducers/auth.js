@@ -11,10 +11,10 @@ const authReducer = (currentState,action) => {
       })
     case 'AUTH_SUCCESS':
       return Object.assign({},currentState,{
-        role: action.data.role,
+        role: action.role,
         loggedIn: true,
         loading: false,
-        sessionExpires: action.data.expires,
+        sessionExpires: action.expires,
         error: null
       })
     case 'AUTH_ERROR':

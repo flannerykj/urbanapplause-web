@@ -1,8 +1,22 @@
+// @flow
+
 import C from '../constants';
 import authService from './auth-service';
 
+type APIError = {
+  name: string,
+  message: string,
+  code: string,
+  status: number
+}
+type APIResponseBody = {
+  error: ?APIError,
+  [string]: any
+}
 
 export class APIService {
+  routerPath: ?string
+
   constructor(routerPath: ?string) {
     this.routerPath = routerPath;
   }
@@ -27,23 +41,19 @@ export class APIService {
     return headers;
   }
 
-  handleError(error: Error): Promise<string> {
+  handleAPIError(error: APIError): Promise<string> {
     if (error.message) {
-      return Promise.reject(error.message);
-    }
-    if (error.response && error.response.data) {
-      if (error.response.data.error && error.response.data.error.message) {
-        return Promise.reject(error.response.data.error.message);
-      } else if (error.response.data.errors && error.response.data.errors.length > 0) {
-        return Promise.reject(error.response.data.errors);
-      }
-    } else if (error.message) {
       return Promise.reject(error.message);
     }
     return Promise.reject('An error occurred');
   }
-
-  makeRequest(path, opts, queryParams: {[string]: any} = {}): Promise<any> {
+  handleError(error: Error): Promise<string> {
+    if (error.message) {
+      return Promise.reject(error.message);
+    }
+    return Promise.reject('An error occurred');
+  }
+  makeRequest(path: string, opts: RequestOptions = {}, queryParams: {[string]: any} = {}): Promise<any> {
     let qs = "";
     if (queryParams) {
       qs = Object.keys(queryParams).map(key => {
@@ -56,12 +66,13 @@ export class APIService {
     const endpoint = `${this.endpoint}${path}${qs}`
     return fetch(endpoint, opts)
     .then((response) => {
-      if (!response.ok) {
-        return Promise.reject({ error: response.statusText });
-      }
       return response.json()
     })
     .then((json) => {
+      console.log('response json: ', json);
+      /*      if (!response.ok) {
+        return Promise.reject({ error: response.statusText });
+      } */
       if (json.error) {
         return Promise.reject(json.error);
       } else {

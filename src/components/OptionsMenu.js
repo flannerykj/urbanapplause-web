@@ -4,9 +4,11 @@ import Can from './Can';
 import ReportContentModal from './ReportContentModal';
 import type { User } from '../types/user';
 import type { Post } from '../types/Post';
+import type { AuthState } from '../types/store';
 
 type Props = {
   authUser: User,
+  auth: AuthState,
   post: Post,
   onDelete: () => void,
   lang: string
@@ -58,7 +60,7 @@ class OptionsMenu extends Component<Props, State> {
     });
   }
   render() {
-    const { onDelete, authUser, post, lang } = this.props;
+    const { onDelete, authUser, auth, post, lang } = this.props;
     return(
       <div className='comment-options-menu' style={{width: '30px', float: 'right'}}>
 
@@ -72,7 +74,7 @@ class OptionsMenu extends Component<Props, State> {
             <div className="dropdown-menu" id="dropdown-menu" role="menu">
               <div className="dropdown-content" onClick={this.closeDropdown}>
                 <Can
-                  role={authUser && authUser.role}
+                  role={auth && auth.role}
                   perform='post:delete'
                   data={{
                     authUserId: authUser && authUser.id,

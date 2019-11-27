@@ -1,8 +1,5 @@
 // @flow
 import React from 'react';
-
-import authService from '../services/auth-service';
-
 import ScrollToTop from '../components/ScrollToTop';
 import Navbar from '../hoc/NavbarContainer';
 import Footer from '../components/Footer';
@@ -33,31 +30,11 @@ import CookieUsage from '../pages/CookieUsage';
 import Map from '../components/MapKitMap';
 import Intro from '../pages/IntroPage';
 import Can from '../components/Can';
+import PrivateRoute from '../components/PrivateRoute';
 
 import type { Store } from '../types/store';
 
 import history from './history';
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isLoggedIn = authService.isAuthenticated
-  return (
-    <Route
-      {...rest}
-      render={props =>
-      <Can
-        role={authService.role}
-        perform='post:read'
-        yes={() => (
-          <Component {...props} />
-          )}
-        no={() => (
-          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-        )}
-      />
-      }
-    />
-  )
-}
 
 export const router = (store: Store ) => (
   <Router history={history}>

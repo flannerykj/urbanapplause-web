@@ -44,6 +44,8 @@ class PostListPage extends Component<Props, State> {
 
   render() {
     const lang = this.props.settings.languagePref;
+    const auth = this.props.auth;
+    console.log('auth: ', auth);
     return(
       <div>
         <section className="section">
@@ -87,6 +89,7 @@ class PostListPage extends Component<Props, State> {
           <PostList
             lang={lang}
             authUser={this.props.authUser}
+            auth={auth}
             query={{
               search: this.state.searchKey
             }}
@@ -107,6 +110,7 @@ class PostListPage extends Component<Props, State> {
           <PostList
             lang={lang}
             authUser={this.props.authUser}
+            auth={this.props.auth}
             query={{
               search: this.state.searchKey
             }}

@@ -4,10 +4,11 @@ import type { NavigationProps } from '../../types/navigation';
 import PostListItem from './PostListItem';
 import copy from '../../copy';
 import type { Post } from '../../types/post';
-import type { SettingsState, AuthUserState } from '../../types/store';
+import type { AuthState, SettingsState, AuthUserState } from '../../types/store';
 import apiService from '../../services/api-service';
 
 export type PostQueryParams = {
+  auth: AuthState,
   postId: ?number,
   artistId: ?number,
   userId: ?number,
@@ -209,6 +210,7 @@ class PostList extends Component<Props, State> {
 
     let listItems = this.state.posts.map(post =>
       <PostListItem
+        auth={this.props.auth}
         selectPost={this.selectPost}
         viewComments={this.viewComments}
         applaudPost={this.applaudPost}

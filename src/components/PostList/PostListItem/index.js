@@ -14,10 +14,12 @@ import imageService from '../../../services/image-service';
 import type { Post } from '../../../types/post';
 import type { User } from '../../../types/user';
 import Can from '../../Can';
+import type { AuthState } from '../../../types/store';
 
 type Props = {
   viewComments: (Post) => void,
   authUser: User,
+  auth: AuthState,
   post: Post,
   lang: string,
   onDelete: (number) => void,
@@ -60,7 +62,7 @@ class PostListItem extends Component<Props, State> {
     // @TODO
   }
   render() {
-    const { post, lang, authUser}  = this.props;
+    const { post, lang, auth, authUser}  = this.props;
     const cityCopy = post.Location ? copy['in-city'][lang].replace('$$', post.Location.city) : '';
     const previewImage = post.PostImages.length ? post.PostImages[0] : null;
     console.log('preview image : ', previewImage);
@@ -94,6 +96,7 @@ class PostListItem extends Component<Props, State> {
             <div className='media-right'>
               <OptionsMenu
                 lang={lang}
+                auth={auth}
                 authUser={authUser}
                 post={post}
                 onDelete={this.handleDelete}
