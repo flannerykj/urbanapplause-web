@@ -5,10 +5,12 @@ import type { User, AuthForm, Role } from '../types/user';
 import type { Dispatch, GetState } from '../types/redux';
 //import {history} from '../router'
 import userActions from './users';
-import apiService from '../services/api-service';
+import { APIService } from '../services/api-service';
 import authService from '../services/auth-service';
 let baseURL = C.SERVER_URL;
 
+const apiService = new APIService()
+apiService.routerPath = 'auth';
 
 export const resetAuthForm = () => {
   return function(dispatch: Dispatch, getState: GetState){

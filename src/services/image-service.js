@@ -1,7 +1,6 @@
 // @flow
 import AWS from 'aws-sdk';
 import C from '../constants';
-import uuid from 'uuid/v1';
 import apiService from './api-service';
 
 const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
@@ -22,15 +21,12 @@ class ImageService {
   }
 
   download(filename: string): Promise<Buffer> {
-    console.log('filename: ', filename);
     return new Promise((resolve, reject) => {
       const Key = `${this.uploadsDir}/${filename}`;
-      console.log('key: ', Key);
       const params = {
         Bucket: bucketName,
         Key
       };
-      console.log('params: ', params);
       return s3.getObject(params, (err, data) => {
         if (data) {
           /* var arrayBufferView = new Uint8Array(data.Body);

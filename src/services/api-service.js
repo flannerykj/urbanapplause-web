@@ -28,10 +28,7 @@ export class APIService {
     if (this.routerPath) {
       return `${C.SERVER_URL}/${this.routerPath}`
     }
-    if (authService.isAuthenticated) {
-      return `${C.SERVER_URL}/private`;
-    }
-    return `${C.SERVER_URL}/public`;
+    return `${C.SERVER_URL}/app`;
   }
   get headers(): any {
     const token = localStorage.getItem('token');
@@ -41,13 +38,20 @@ export class APIService {
     return headers;
   }
 
-  handleAPIError(error: APIError): Promise<string> {
+    /* handleAPIError(error: APIError): Promise<string> {
+    console.log('handle api error ', error);
     if (error.message) {
       return Promise.reject(error.message);
     }
     return Promise.reject('An error occurred');
-  }
-  handleError(error: Error): Promise<string> {
+  } */
+  handleError(error: Error, httpResponse: ?Response): Promise<string> {
+    console.log('handle error: ', error);
+    if (httpResponse) {
+      console.log('response: ', httpResponse);
+    } else {
+      console.log('no response');
+    }
     if (error.message) {
       return Promise.reject(error.message);
     }
@@ -63,13 +67,17 @@ export class APIService {
     if (qs.length) {
       qs = "?" + qs;
     }
-    const endpoint = `${this.endpoint}${path}${qs}`
+    const endpoint = `${this.endpoint}${path}${qs}`;
+    var httpResponse: ?Response;
     return fetch(endpoint, opts)
-    .then((response) => {
+    .then((response: Response) => {
+      httpResponse = response;
+      if (response.status == 404) {
+        return this.handleError(Error('404 Error'))
+      }
       return response.json()
     })
     .then((json) => {
-      console.log('response json: ', json);
       /*      if (!response.ok) {
         return Promise.reject({ error: response.statusText });
       } */
@@ -79,7 +87,7 @@ export class APIService {
         return Promise.resolve(json);
       }
     })
-    .catch(this.handleError);
+    .catch((error) => this.handleError(error, httpResponse)); // json parsing errors caught here.
   }
 
   get(path: string, options: any = {}, queryParams: {[string]: any}): Promise<any> {
