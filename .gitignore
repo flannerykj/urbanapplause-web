@@ -1,4 +1,3 @@
-build/
 server/uploads
 node_modules
 .env
