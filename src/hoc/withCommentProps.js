@@ -65,7 +65,7 @@ export default function withPostProps(WrappedComponent) {
         return
       }
       return apiService.post(`/comments/`, {
-        body: { applause: { UserId, PostId: this.props.query.postId, content }}
+        body: { comment: { UserId, PostId: this.props.query.postId, content }}
       })
         .then((json) => {
           if(json.comment) {

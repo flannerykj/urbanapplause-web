@@ -102,16 +102,16 @@ export default function withArtistProps(WrappedComponent) {
         return
       }
       console.log('UserId: ', UserId);
-      return apiService.artist(`/api/applause`, {
-        body: { applause: { UserId, ArtistId }}
+      return apiService.artist(`/api/claps`, {
+        body: { clap: { UserId, ArtistId }}
       })
         .then((json) => {
-          if(json.applause) {
-            const applause = json.applause;
+          if(json.clap) {
+            const clap = json.clap;
             var newItems = this.state.artists.map((item, i) => {
-              if (item.id === applause.ArtistId) {
+              if (item.id === clap.ArtistId) {
                 const updatedApplause = item.Applause ? item.Applause : [];
-                updatedApplause.push(applause);
+                updatedApplause.push(clap);
                 return Object.assign({}, item, {
                   Applause: updatedApplause
                 })
@@ -124,11 +124,11 @@ export default function withArtistProps(WrappedComponent) {
             })
           } else if (json.deleted) {
             // remove applause
-            const applause = json.deleted;
+            const clap = json.deleted;
             var newItems = this.state.artists.map((item, i) => {
-              if (item.id === applause.ArtistId) {
+              if (item.id === clap.ArtistId) {
                 const updatedApplause = item.Applause ? item.Applause : [];
-                const index = updatedApplause.indexOf(applause);
+                const index = updatedApplause.indexOf(clap);
                 updatedApplause.splice(index, 1)
                 if (index > -1 ) {
                   return Object.assign({}, item, {

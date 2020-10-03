@@ -8,19 +8,19 @@ import type { AuthState, SettingsState, AuthUserState } from '../../types/store'
 import apiService from '../../services/api-service';
 
 export type PostQueryParams = {
-  auth: AuthState,
+  auth: ?AuthState,
   postId: ?number,
   artistId: ?number,
   userId: ?number,
   search: ?string,
-  applaudedBy: ?number
+  clappedBy: ?number
 }
 
 type Props = NavigationProps & {
   authUser: AuthUserState,
   settings: SettingsState,
   query: PostQueryParams,
-  page: number
+  page: ?number
 }
 
 type State = {
@@ -54,7 +54,6 @@ class PostList extends Component<Props, State> {
   }
   componentWillReceiveProps(nextProps: Props){
     if (this.props.query !== nextProps.query) {
-      console.log('next query: ', nextProps.query);
       this.getPosts(nextProps);
     }
   }
@@ -63,7 +62,7 @@ class PostList extends Component<Props, State> {
       ...props.query,
       page: this.state.page,
       limit: 10,
-      include: 'applause,comments'
+      include: 'claps,comments,post_images,user,artists'
     };
     this.setState({
       error: null,
@@ -74,7 +73,6 @@ class PostList extends Component<Props, State> {
       .then((json) => {
         if (json.posts) {
           console.log('json posts: ', json.posts);
-          console.log('state posts: ', this.state.posts);
           this.setState({
             loading: false,
             posts: json.posts.concat(this.state.posts)
@@ -100,16 +98,16 @@ class PostList extends Component<Props, State> {
   }
   applaudPost = (PostId: number) => {
       const UserId = this.props.authUser && this.props.authUser.data && this.props.authUser.data.id;
-      return apiService.post(`/applause`, {
-        applause: { UserId, PostId }
+      return apiService.post(`/claps`, {
+        clap: { UserId, PostId }
       })
         .then((json) => {
-          if(json.applause) {
-            const applause = json.applause;
+          if(json.clap) {
+            const clap = json.clap;
             var newItems = this.state.posts.map((item, i) => {
-              if (item.id === applause.PostId) {
+              if (item.id === clap.PostId) {
                 const updatedApplause = item.Applause ? item.Applause : [];
-                updatedApplause.push(applause);
+                updatedApplause.push(clap);
                 return Object.assign({}, item, {
                   Applause: updatedApplause
                 })
@@ -122,11 +120,11 @@ class PostList extends Component<Props, State> {
             })
           } else if (json.deleted) {
             // remove applause
-            const applause = json.deleted;
+            const clap = json.clap;
             var newItems = this.state.posts.map((item, i) => {
-              if (item.id === applause.PostId) {
+              if (item.id === clap.PostId) {
                 const updatedApplause = item.Applause ? item.Applause : [];
-                const index = updatedApplause.indexOf(applause);
+                const index = updatedApplause.indexOf(clap);
                 updatedApplause.splice(index, 1)
                 if (index > -1 ) {
                   return Object.assign({}, item, {

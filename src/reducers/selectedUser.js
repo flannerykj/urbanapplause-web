@@ -25,7 +25,7 @@ const selectedUserReducer = (currentState,action) => {
 
     case 'GET_USER_APPLAUSE_REQUEST':
       return Object.assign({},currentState, {
-        applause: {
+        claps: {
           data: [],
           loading: true,
           error: null
@@ -33,15 +33,15 @@ const selectedUserReducer = (currentState,action) => {
       })
     case 'GET_USER_APPLAUSE_SUCCESS':
       return Object.assign({},currentState,{
-        applause: {
+        claps: {
           loading: false,
-          data: action.applause,
+          data: action.claps,
           error: null
         }
       })
     case 'GET_USER_APPLAUSE_ERROR':
       return Object.assign({},currentState,{
-        applause: {
+        claps: {
           loading: false,
           data: [],
           error: action.error
@@ -49,11 +49,11 @@ const selectedUserReducer = (currentState,action) => {
       })
 
     case 'APPLAUD_POST_SUCCESS':
-      if (currentState.data && action.applause.UserId == currentState.data.id) {
-      var newItems = currentState.applause.data.map((item, i) => {
-        if (item.id === action.applause.PostId) {
+      if (currentState.data && action.clap.UserId == currentState.data.id) {
+      var newItems = currentState.claps.data.map((item, i) => {
+        if (item.id === action.clap.PostId) {
           const updatedApplause = item.Applause ? item.Applause : [];
-          updatedApplause.push(action.applause);
+          updatedApplause.push(action.clap);
 
           return Object.assign({}, item, {
             Applause: updatedApplause
@@ -62,18 +62,18 @@ const selectedUserReducer = (currentState,action) => {
         return item;
       });
         return Object.assign({}, currentState, {
-          applause: {
-            ...currentState.applause,
+          claps: {
+            ...currentState.claps,
             data: newItems
           }
         })
       }
 
     case 'APPLAUD_POST_REMOVE':
-      var newItems = currentState.applause.data.map((item, i) => {
-        if (item.id === action.applause.PostId) {
+      var newItems = currentState.claps.data.map((item, i) => {
+        if (item.id === action.clap.PostId) {
           const updatedApplause = item.Applause ? item.Applause : [];
-          const index = updatedApplause.indexOf(action.applause);
+          const index = updatedApplause.indexOf(action.clap);
           updatedApplause.splice(index, 1)
           if (index > -1 ) {
             return Object.assign({}, item, {
@@ -84,8 +84,8 @@ const selectedUserReducer = (currentState,action) => {
         return item;
       });
       return Object.assign({}, currentState, {
-        applause: {
-          ...currentState.applause,
+        claps: {
+          ...currentState.claps,
           data: newItems
         }
       })

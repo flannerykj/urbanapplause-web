@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import CacheableImage from './PostImage';
+import CloudinaryImage from './CloudinaryImage';
 import copy from '../copy';
 
 type Props = {
@@ -61,10 +61,10 @@ class ImageModal extends Component<Props, State> {
     const arrowCommonClass = 'fa fa-2x'
     return(
       <div className={`modal ${isActive ? 'is-active' : ''}`}>
-        <div class="modal-background"></div>
+        <div className="modal-background"></div>
 
         <h3 className='subtitle is-4 has-text-grey-lighter' style={{ marginTop: '24px', position: 'absolute', top: '0', textAlign: 'center' }}>{this.state.index + 1} of {imageStorageLocations.length} images</h3>
-        <div class="modal-content" style={{ width: '100%', maxWidth: '1000px' }}>
+        <div className="modal-content" style={{ width: '100%', maxWidth: '1000px' }}>
           <div className='image' style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'center' }}>
             <a onClick={this.showPrevious}>
               <span className={`icon is-large ${this.state.index > 0 ? 'has-text-grey-lighter' : 'has-text-grey'}`} >
@@ -74,7 +74,7 @@ class ImageModal extends Component<Props, State> {
 
             <div className="image is-centered" style={{ textAlign: 'center'}}>
 
-              <CacheableImage storageLocation={imageStorageLocations[this.state.index]} />
+              <CloudinaryImage publicId={imageStorageLocations[this.state.index]} />
             </div>
 
             <a onClick={this.showNext}>

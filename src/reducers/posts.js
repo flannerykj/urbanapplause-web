@@ -42,12 +42,12 @@ const postsReducer = (currentState, action) => {
       });
     case 'APPLAUD_POST_SUCCESS':
       var newItems = currentState.data.map((item, i) => {
-        if (item.id === action.applause.PostId) {
-          const updatedApplause = item.Applause ? item.Applause : [];
-          updatedApplause.push(action.applause);
+        if (item.id === action.clap.PostId) {
+          const updatedClaps = item.Claps ? item.Claps : [];
+          updatedClaps.push(action.clap);
 
           return Object.assign({}, item, {
-            Applause: updatedApplause
+            Claps: updatedClaps
           })
         }
         return item;
@@ -55,13 +55,13 @@ const postsReducer = (currentState, action) => {
       return Object.assign({}, currentState, {data: newItems})
     case 'APPLAUD_POST_REMOVE':
       var newItems = currentState.data.map((item, i) => {
-        if (item.id === action.applause.PostId) {
-          const updatedApplause = item.Applause ? item.Applause : [];
-          const index = updatedApplause.indexOf(action.applause);
-          updatedApplause.splice(index, 1)
+        if (item.id === action.clap.PostId) {
+          const updatedClaps = item.Claps ? item.Claps : [];
+          const index = updatedClaps.indexOf(action.clap);
+          updatedClaps.splice(index, 1)
           if (index > -1 ) {
             return Object.assign({}, item, {
-              Applause: updatedApplause
+              Claps: updatedClaps
             })
           }
         }

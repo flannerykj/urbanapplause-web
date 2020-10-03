@@ -33,7 +33,7 @@ class ChooseDate extends Component<Props> {
     const lang = this.props.lang;
     var day = this.props.date ? this.props.date : null;
     console.log('day: ', day);
-    var successText = day ? day.format('MMM Do YY') : '';
+    var successText = day && day != null ? day.toLocaleDateString() : '';
     console.log('success text: ', successText);
     return(
       <div className='form-section'>

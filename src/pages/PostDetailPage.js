@@ -70,9 +70,11 @@ class PostDetailPage extends Component<Props, State> {
   }
   getPost = (postId: number) => {
     this.setState({ loading: true });
-    return apiService.get(`/posts/${postId}`, {}, {})
+    const query = {
+      include: 'claps,comments,post_images'
+    }
+    return apiService.get(`/posts/${postId}`, {}, query)
       .then((json) => {
-        console.log(json);
         if (json.post) {
           this.setState({
             loading: false,

@@ -100,7 +100,6 @@ export default function withPostProps(WrappedComponent) {
     }
 
     applaudPost = (PostId: number) => {
-      console.log(this.props);
       const UserId = this.props.authUser && this.props.authUser.data && this.props.authUser.data.id;
       if (!UserId) {
         this.setState({
@@ -108,17 +107,16 @@ export default function withPostProps(WrappedComponent) {
         });
         return
       }
-      console.log('UserId: ', UserId);
-      return apiService.post(`/applause`, {
-        applause: { UserId, PostId }
+      return apiService.post(`/claps`, {
+        clap: { UserId, PostId }
       })
         .then((json) => {
-          if(json.applause) {
-            const applause = json.applause;
+          if(json.clap) {
+            const clap = json.clap;
             var newItems = this.state.posts.map((item, i) => {
-              if (item.id === applause.PostId) {
+              if (item.id === clap.PostId) {
                 const updatedApplause = item.Applause ? item.Applause : [];
-                updatedApplause.push(applause);
+                updatedApplause.push(clap);
                 return Object.assign({}, item, {
                   Applause: updatedApplause
                 })
@@ -131,11 +129,11 @@ export default function withPostProps(WrappedComponent) {
             })
           } else if (json.deleted) {
             // remove applause
-            const applause = json.deleted;
+            const clap = json.deleted;
             var newItems = this.state.posts.map((item, i) => {
-              if (item.id === applause.PostId) {
+              if (item.id === clap.PostId) {
                 const updatedApplause = item.Applause ? item.Applause : [];
-                const index = updatedApplause.indexOf(applause);
+                const index = updatedApplause.indexOf(clap);
                 updatedApplause.splice(index, 1)
                 if (index > -1 ) {
                   return Object.assign({}, item, {

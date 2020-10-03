@@ -67,8 +67,12 @@ class ReportContentModal extends Component<Props, State> {
           </header>
           {!this.state.didSubmit && <section className="modal-card-body">
             <ul className='list is-hoverable'>
-              {reasons.map((reason) =>
-                <ReasonButton reason={reason} lang={lang} onSelect={this.onSelect} />
+              {reasons.map((reason, i) =>
+                <ReasonButton
+                  reason={reason}
+                  lang={lang}
+                  key={i}
+                  onSelect={this.onSelect} />
               )}
             </ul>
           </section>}

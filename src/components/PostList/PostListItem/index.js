@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import CacheableImage from '../../PostImage';
+import CloudinaryImage from '../../CloudinaryImage';
 import {timeSince, formattedStringFromDate, getValidDate} from '../../../services/dateAndTime';
 import IconAndText from '../../IconAndText';
 import C from '../../../constants';
@@ -64,13 +64,13 @@ class PostListItem extends Component<Props, State> {
   render() {
     const { post, lang, auth, authUser}  = this.props;
     const cityCopy = post.Location ? copy['in-city'][lang].replace('$$', post.Location.city) : '';
-    const previewImage = post.PostImages.length ? post.PostImages[0] : null;
+    const previewImage = post.PostImages && post.PostImages.length ? post.PostImages[0] : null;
     return(
       <div className="card">
         <a onClick={this.showImageModal}>
-          <div className='card-image is-5by3 is-vertical-center'>
-            {previewImage && <CacheableImage
-              storageLocation={previewImage.storage_location}
+          <div className='is-5by3'>
+            {previewImage && <CloudinaryImage
+              publicId={previewImage.storage_location}
             />
             }
           </div>
@@ -110,7 +110,7 @@ class PostListItem extends Component<Props, State> {
                 onClick={this.handleApplaud}
                 iconSrc={applauseIcon}
                 iconClassName='applause-icon'
-                number={post.Applause ? post.Applause.length : 0}
+                number={post.Claps ? post.Claps.length : 0}
               />
               <IconAndText
                 onClick={() => { this.props.viewComments(post)}}

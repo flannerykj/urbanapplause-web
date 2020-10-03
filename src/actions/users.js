@@ -51,10 +51,10 @@ function getUserApplause(userId: number) {
         'Content-Type': 'application/json'
       }
     }
-    return apiService.get("/applause" + qs, opts)
+    return apiService.get("/claps" + qs, opts)
       .then((json) => {
-        if (json.applause) {
-          return dispatch({ type: 'GET_USER_APPLAUSE_SUCCESS', applause: json.applause })
+        if (json.claps) {
+          return dispatch({ type: 'GET_USER_APPLAUSE_SUCCESS', claps: json.claps})
         }
       })
       .catch((error) => {
@@ -118,7 +118,7 @@ function findById(id) {
   console.log('find id for', id);
   return function(dispatch){
     dispatch(requestUser(id));
-    return fetch(baseURL + "/api/users/" + id + "?include=applause")
+    return fetch(baseURL + "/api/users/" + id + "?include=claps")
       .then(res => res.json())
       .then(data => dispatch(receiveUser(data)));
   }

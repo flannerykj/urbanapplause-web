@@ -253,6 +253,8 @@ class NewPostPage extends Component<Props, State> {
     });
   }
   updateNewPost = (field: string, value: ?string) => {
+    console.log('update: ', field);
+    console.log('value: ', value);
     let newPost = this.state.newPost;
     newPost[field] = value
     this.setState({

@@ -9,7 +9,7 @@ import withPostProps from '../hoc/withPostProps';
 import InfoField from './InfoField'
 import ImageModal from './ImageModal';
 import imageService from '../services/image-service';
-import CacheableImage from './PostImage';
+import CloudinaryImage from './CloudinaryImage';
 
 import C from '../constants';
 
@@ -41,22 +41,22 @@ class PostDetail extends Component<Props, State> {
   render() {
     const lang = this.props.lang;
     const post = this.props.post;
-    const previewImage = post && post.PostImages[0];
+    console.log(this.props.post);
+    const previewImage = post && post.PostImages && post.PostImages[0];
     return (
       <div className="container">
         {previewImage && <ImageModal
           isActive={this.state.galleryModalActive}
           imageStorageLocations={[previewImage.storage_location]}
           onClose={this.hideModal} />}
-        <div style={{ height: '300px', marginBottom: '24px' }}>
-          {previewImage &&
-            <a onClick={this.showModal}>
-              <CacheableImage
-                storageLocation={previewImage.storage_location}
-                height={300}
-              />
-          </a>}
-        </div>
+        {previewImage &&
+          <a onClick={this.showModal}>
+            <div style={{ overflow: 'hidden', display: 'inline-block', width: '100%' }}>
+                <CloudinaryImage
+                  publicId={previewImage.storage_location}
+                />
+            </div>
+        </a>}
         <InfoField
           label={copy['art-by'][lang]}
           emptyText={copy['unknown-artist'][lang]}

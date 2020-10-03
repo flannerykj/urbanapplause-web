@@ -114,7 +114,7 @@ class UserProfilePage extends Component<Props, State> {
         error: null
       }
     });
-    return apiService.get("/users/" + id + "?include=applause")
+    return apiService.get("/users/" + id + "?include=claps")
       .then(data => {
       this.setState({
         user: {
@@ -200,7 +200,7 @@ class UserProfilePage extends Component<Props, State> {
             history={this.props.history}
             authUser={this.props.authUser && this.props.authUser.data}
             query={{
-              applaudedBy: userId
+              clappedBy: userId
             }}
           />
         )

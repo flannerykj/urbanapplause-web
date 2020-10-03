@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "aws-sdk": "^2.576.0",
+    "cloudinary-react": "^1.6.6",
     "cors": "^2.8.5",
     "exif-js": "^2.3.0",
     "exif-rotate-js": "^1.0.3",

@@ -34,17 +34,17 @@ function selectPost(post: Post) {
 function applaudPost(post_id: number, user_id: number) {
   return function(dispatch: Dispatch, getState: GetState) {
     dispatch({type: 'APPLAUD_POST_REQUEST'});
-    return fetch(`${baseURL}/api/applause`, {
-      body: JSON.stringify({ applause: { UserId: user_id, PostId: post_id }}),
+    return fetch(`${baseURL}/api/claps`, {
+      body: JSON.stringify({ clap: { UserId: user_id, PostId: post_id }}),
       headers: {'Content-Type': 'application/json'},
       method: 'POST'
     })
       .then((res) => res.json())
       .then((json) => {
-          if(json.applause) {
-            dispatch({type: 'APPLAUD_POST_SUCCESS', applause: json.applause })
+          if(json.clap) {
+            dispatch({type: 'APPLAUD_POST_SUCCESS', clap: json.clap})
           } else {
-            dispatch({ type: 'APPLAUD_POST_REMOVE', applause: json.deleted})
+            dispatch({ type: 'APPLAUD_POST_REMOVE', clap: json.deleted})
           }
       });
   }
