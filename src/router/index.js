@@ -29,6 +29,8 @@ import UpdatePassword from '../pages/UpdatePasswordPage';
 import CookieUsage from '../pages/CookieUsage';
 import Map from '../components/MapKitMap';
 import Intro from '../pages/IntroPage';
+import Donate from '../pages/DonationPage';
+
 import Can from '../components/Can';
 import PrivateRoute from '../components/PrivateRoute';
 
@@ -61,6 +63,8 @@ export const router = (store: Store ) => (
                 <Route exact path='/privacy-policy' component={PrivacyPolicy} />
                 <Route exact path='/terms-of-service' component={TermsOfService} />
                 <Route exact path='/cookie-usage' component={CookieUsage} />
+
+                <Route exact path='/donate' component={Donate} />
 
                 {/* auth routes */}
                 <PrivateRoute exact path='/map' component={Map} />
