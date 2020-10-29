@@ -7,18 +7,21 @@ export type OrderItemType = {
 }
 type Props = {
   item: OrderItemType,
-  onChangeSelection: (boolean) => void
+  onSelect: () => void
 }
 
 export const OrderFormItem = (props: Props) => {
 
   return (
-    <div className='field'>
-      <div className='control'>
-        <label className='checkbox' onChange={props.onChangeSelection}>
-          <input type='checkbox' onChan/>
-          <span> <b>{props.item.description}</b>: ${props.item.amount} </span>
-        </label>
+    <div className='box selectable-box' onClick={props.onSelect}>
+      <div className='columns'>
+        <div className='column is-one-fifth'>
+          <h4 className='title is-4'>${props.item.amount}</h4>
+        </div>
+
+        <div className='column'>
+          <p>{props.item.description} </p>
+        </div>
       </div>
     </div>
   )

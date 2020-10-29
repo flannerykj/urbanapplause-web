@@ -530,9 +530,13 @@
       "fr": "Entrée ne correspond pas au-dessus"
     },
     "reset-password-token-error": {
-       "en": "Your token to reset password has expired",
+       "en": "Your token to reset resetpassword has expired",
       "fr": ""
     }
+  },
+  "contribute-page-title": {
+    "en": "Contribute",
+    "fr": "Faire un don" 
   }
 }
 

@@ -31,4 +31,11 @@ html, body {
   margin-bottom: 30px;
 }
 
-
+.selectable-box:hover  {
+  background-color: hsl(0, 0%, 96%);
+  cursor: pointer;
+}
+.selectable-box:focus {
+  background-color: hsl(0, 0%, 96%);
+  cursor: pointer;
+}

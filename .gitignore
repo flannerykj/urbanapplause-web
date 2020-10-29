@@ -2,5 +2,6 @@ server/uploads
 node_modules
 .env
 .env.production
+.env*
 npm-debug.log
 *.p8
